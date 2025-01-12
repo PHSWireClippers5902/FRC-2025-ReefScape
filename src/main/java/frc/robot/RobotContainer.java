@@ -33,17 +33,12 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class RobotContainer {
   // create inputs
   public final XboxController xbox = new XboxController(0);
-  // public final SwerveSystem m_swerve = new SwerveSystem();
   //create Commands
-  // public final SwerveCommand m_swerveCommand = new SwerveCommand(m_swerve,xbox);
   public final Swerve m_swerve = new Swerve();
-  // public final Joystick joystick1 = new Joystick(0);
-  // public final SingleMotor singleMotor = new SingleMotor(xbox);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-  public final BetterSwerveCommand swerveCommand = new BetterSwerveCommand(xbox, m_swerve);
+  public final SwerveCommand swerveCommand = new SwerveCommand(xbox, m_swerve);
   //Default Constructor
   public RobotContainer(){
-    // m_swerve.setDefaultCommand(m_swerveCommand);
     m_swerve.setDefaultCommand(swerveCommand);
     m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand(m_swerve));    
   }
@@ -56,11 +51,8 @@ public class RobotContainer {
   public XboxController getXbox() {
     return xbox;
   }
-  // public Joystick getJoystick(){
-  //   return joystick1;
-  // }
+  //gets command to run in autonomous
   public Command getAutonomousCommand() {
-    // The selected command will be run in autonomous
     return m_chooser.getSelected();
   }
 

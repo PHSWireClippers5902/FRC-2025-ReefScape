@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import frc.robot.Constants;
 import frc.robot.Constants.SwerveCANConstants;
+import frc.robot.SwerveModule;
 
 public class Swerve extends SubsystemBase{
     public static final double kMaxSpeed = 3.0; // 3 meters per second should be fine to work with 
@@ -103,10 +104,10 @@ public class Swerve extends SubsystemBase{
         SwerveDriveKinematics.desaturateWheelSpeeds(
             swerveModuleStates,kMaxSpeed
         );
-        m_frontLeft.setDesiredState(swerveModuleStates[0]);
-        m_frontRight.setDesiredState(swerveModuleStates[1]);
-        m_backLeft.setDesiredState(swerveModuleStates[2]);
-        m_backRight.setDesiredState(swerveModuleStates[3]);
+        m_frontLeft.setDesiredState(swerveModuleStates[0], true);
+        m_frontRight.setDesiredState(swerveModuleStates[1], true);
+        m_backLeft.setDesiredState(swerveModuleStates[2], true);
+        m_backRight.setDesiredState(swerveModuleStates[3], true);
         SmartDashboard.putNumber("FL Distance: ", m_frontLeft.steeringController.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("FL Speed: "  , m_frontLeft.steeringController.getSelectedSensorVelocity(0));
     }
@@ -117,10 +118,10 @@ public class Swerve extends SubsystemBase{
         SwerveDriveKinematics.desaturateWheelSpeeds(
             swerveModuleStates,kMaxSpeed
         );
-        m_frontLeft.setDesiredState(swerveModuleStates[0]);
-        m_frontRight.setDesiredState(swerveModuleStates[1]);
-        m_backLeft.setDesiredState(swerveModuleStates[2]);
-        m_backRight.setDesiredState(swerveModuleStates[3]);
+        m_frontLeft.setDesiredState(swerveModuleStates[0], true);
+        m_frontRight.setDesiredState(swerveModuleStates[1], true);
+        m_backLeft.setDesiredState(swerveModuleStates[2], true);
+        m_backRight.setDesiredState(swerveModuleStates[3], true);
         SmartDashboard.putNumber("FL Distance: ", m_frontLeft.steeringController.getSelectedSensorPosition(0));
         SmartDashboard.putNumber("FL Speed: "  , m_frontLeft.steeringController.getSelectedSensorVelocity(0));
         // SmartDashboard.putRaw("Translation2d: ", myGyro.m_gyro.getRotation2d());

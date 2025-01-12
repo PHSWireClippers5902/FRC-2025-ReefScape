@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Swerve;
 
-public class BetterSwerveCommand extends Command {
+public class SwerveCommand extends Command {
     // public Joystick myJoystick;
     public XboxController myXbox;
     public Swerve mySwerve;
@@ -15,7 +15,7 @@ public class BetterSwerveCommand extends Command {
     private static final double kMaxSpeed = Swerve.kMaxSpeed;
     private static final double kMaxAngularSpeed = Swerve.kMaxAngularSpeed;
     double xSpeed,ySpeed,rot;
-    public BetterSwerveCommand(XboxController xbox, Swerve m_s){
+    public SwerveCommand(XboxController xbox, Swerve m_s){
         myXbox = xbox;
         mySwerve = m_s;
         addRequirements(mySwerve);
