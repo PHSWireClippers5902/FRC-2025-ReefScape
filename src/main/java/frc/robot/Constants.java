@@ -18,6 +18,15 @@ public final class Constants{
         // public static final double drivekI = ;
 
     }
+    public static final class Translations{
+        public static final double xPos = 0;
+        public static final double yPos = 0;
+    }
+    public static final class KsKvKaConstants{
+        public static final double ks = 0;
+        public static final double kv = 0;
+        public static final double ka = 0;
+    }
     public static final class SwerveMotorConstants{
         public static final int powerFLID = 1;
         public static final int controlFLID = 1;

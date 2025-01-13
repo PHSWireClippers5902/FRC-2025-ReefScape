@@ -34,13 +34,14 @@ public class RobotContainer {
   // create inputs
   public final XboxController xbox = new XboxController(0);
   //create Commands
-  public final Swerve m_swerve = new Swerve();
+  // public final Swerve m_swerve = new Swerve();
+  public final SystemIdentificationSubsystem sysidSubsystem = new SystemIdentificationSubsystem(xbox);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-  public final SwerveCommand swerveCommand = new SwerveCommand(xbox, m_swerve);
+  // public final SwerveCommand swerveCommand = new SwerveCommand(xbox, m_swerve);
   //Default Constructor
   public RobotContainer(){
-    m_swerve.setDefaultCommand(swerveCommand);
-    m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand(m_swerve));    
+    // m_swerve.setDefaultCommand(swerveCommand);
+    // m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand(m_swerve));    
   }
 
   private void configureButtonBindings(){ 
