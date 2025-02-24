@@ -168,7 +168,7 @@ public class Elevator extends SubsystemBase{
     }
     
     public void changeArmPID(double kP, double kI, double kD){
-        SparkMaxConfig newConfig = new SparkMaxConfig();
+        SparkMaxConfig newConfiguration = new SparkMaxConfig();
         newConfiguration.idleMode(coastOrClear);
 
         newConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
@@ -179,7 +179,7 @@ public class Elevator extends SubsystemBase{
         arm.configure(newConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
     public void changeWristPID(double kP, double kI, double kD){
-        SparkMaxConfig newConfig = new SparkMaxConfig();
+        SparkMaxConfig newConfiguration = new SparkMaxConfig();
         newConfiguration.idleMode(coastOrClear);
 
         newConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
@@ -190,7 +190,7 @@ public class Elevator extends SubsystemBase{
         wrist.configure(newConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
     public void changeIntakePID(double kP, double kI, double kD){
-        SparkMaxConfig newConfig = new SparkMaxConfig();
+        SparkMaxConfig newConfiguration = new SparkMaxConfig();
         newConfiguration.idleMode(coastOrClear);
 
         newConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
@@ -201,7 +201,7 @@ public class Elevator extends SubsystemBase{
         intake.configure(newConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
     public void changeExtendoPID(double kP, double kI, double kD){
-        SparkMaxConfig newConfig = new SparkMaxConfig();
+        SparkMaxConfig newConfiguration = new SparkMaxConfig();
         newConfiguration.idleMode(coastOrClear);
 
         newConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
