@@ -80,7 +80,7 @@ public class Elevator extends SubsystemBase{
         armConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
         armConfiguration.closedLoop.pid(ArmHookConstants.arm.MotorGAINS.kP,ArmHookConstants.arm.MotorGAINS.kI,ArmHookConstants.arm.MotorGAINS.kD);
         armConfiguration.closedLoop.maxOutput(ArmHookConstants.arm.MotorGAINS.kPeakOutput);
-        armConfiguration.inverted(false);
+        armConfiguration.inverted(ArmHookConstants.arm.MotorInverted);
         
         arm.configure(armConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         armController = arm.getClosedLoopController();
@@ -106,7 +106,7 @@ public class Elevator extends SubsystemBase{
         wristConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
         wristConfiguration.closedLoop.pid(ArmHookConstants.wrist.MotorGAINS.kP,ArmHookConstants.wrist.MotorGAINS.kI,ArmHookConstants.wrist.MotorGAINS.kD);
         wristConfiguration.closedLoop.maxOutput(ArmHookConstants.wrist.MotorGAINS.kPeakOutput);
-        wristConfiguration.inverted(false);
+        wristConfiguration.inverted(ArmHookConstants.wrist.MotorInverted);
         
         wrist.configure(wristConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         wristController = wrist.getClosedLoopController();
@@ -131,7 +131,7 @@ public class Elevator extends SubsystemBase{
         intakeConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
         intakeConfiguration.closedLoop.pid(ArmHookConstants.intake.MotorGAINS.kP,ArmHookConstants.intake.MotorGAINS.kI,ArmHookConstants.intake.MotorGAINS.kD);
         intakeConfiguration.closedLoop.maxOutput(ArmHookConstants.intake.MotorGAINS.kPeakOutput);
-        intakeConfiguration.inverted(false);
+        intakeConfiguration.inverted(ArmHookConstants.intake.MotorInverted);
         
         intake.configure(intakeConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         intakeController = intake.getClosedLoopController();
@@ -154,7 +154,7 @@ public class Elevator extends SubsystemBase{
         extendoConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
         extendoConfiguration.closedLoop.pid(ArmHookConstants.extendo.MotorGAINS.kP,ArmHookConstants.extendo.MotorGAINS.kI,ArmHookConstants.extendo.MotorGAINS.kD);
         extendoConfiguration.closedLoop.maxOutput(ArmHookConstants.extendo.MotorGAINS.kPeakOutput);
-        extendoConfiguration.inverted(false);
+        extendoConfiguration.inverted(ArmHookConstants.extendo.MotorInverted);
         
         extendo.configure(extendoConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         extendoController = extendo.getClosedLoopController();
@@ -167,6 +167,54 @@ public class Elevator extends SubsystemBase{
 
     }
     
+    public void changeArmPID(){
+        SparkMaxConfig newConfig = new SparkMaxConfig();
+        newConfiguration.idleMode(coastOrClear);
+
+        newConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+        newConfiguration.closedLoop.pid(ArmHookConstants.arm.MotorGAINS.kP,ArmHookConstants.arm.MotorGAINS.kI,ArmHookConstants.arm.MotorGAINS.kD);
+        newConfiguration.closedLoop.maxOutput(ArmHookConstants.arm.MotorGAINS.kPeakOutput);
+        newConfiguration.inverted(ArmHookConstants.arm.MotorInverted);
+        
+        arm.configure(newConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    }
+    public void changeWristPID(){
+        SparkMaxConfig newConfig = new SparkMaxConfig();
+        newConfiguration.idleMode(coastOrClear);
+
+        newConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+        newConfiguration.closedLoop.pid(ArmHookConstants.wrist.MotorGAINS.kP,ArmHookConstants.wrist.MotorGAINS.kI,ArmHookConstants.wrist.MotorGAINS.kD);
+        newConfiguration.closedLoop.maxOutput(ArmHookConstants.wrist.MotorGAINS.kPeakOutput);
+        newConfiguration.inverted(ArmHookConstants.wrist.MotorInverted);
+        
+        wrist.configure(newConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    }
+    public void changeIntakePID(){
+        SparkMaxConfig newConfig = new SparkMaxConfig();
+        newConfiguration.idleMode(coastOrClear);
+
+        newConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+        newConfiguration.closedLoop.pid(ArmHookConstants.intake.MotorGAINS.kP,ArmHookConstants.intake.MotorGAINS.kI,ArmHookConstants.intake.MotorGAINS.kD);
+        newConfiguration.closedLoop.maxOutput(ArmHookConstants.intake.MotorGAINS.kPeakOutput);
+        newConfiguration.inverted(ArmHookConstants.intake.MotorInverted);
+        
+        intake.configure(newConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    }
+    public void changeExtendoPID(){
+        SparkMaxConfig newConfig = new SparkMaxConfig();
+        newConfiguration.idleMode(coastOrClear);
+
+        newConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+        newConfiguration.closedLoop.pid(ArmHookConstants.extendo.MotorGAINS.kP,ArmHookConstants.extendo.MotorGAINS.kI,ArmHookConstants.extendo.MotorGAINS.kD);
+        newConfiguration.closedLoop.maxOutput(ArmHookConstants.extendo.MotorGAINS.kPeakOutput);
+        newConfiguration.inverted(ArmHookConstants.extendo.MotorInverted);
+        
+        extendo.configure(newConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    }
+    
+    
+
+
     public void intake(boolean in){
         // intake.set(in ? ArmHookConstants.intakePercentIn : ArmHookConstants.intakePercentOut);
         intake.set(in ? 0.5 : -0.5);

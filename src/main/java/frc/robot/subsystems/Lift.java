@@ -36,7 +36,7 @@ public class Lift extends SubsystemBase{
         liftConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
         liftConfiguration.closedLoop.pid(ArmHookConstants.lift.MotorGAINS.kP,ArmHookConstants.lift.MotorGAINS.kI,ArmHookConstants.lift.MotorGAINS.kD);
         liftConfiguration.closedLoop.maxOutput(ArmHookConstants.lift.MotorGAINS.kPeakOutput);
-        liftConfiguration.inverted(true);
+        liftConfiguration.inverted(ArmHookConstants.lift.MotorInverted);
         
 
         lift.configure(liftConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

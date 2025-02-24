@@ -6,27 +6,32 @@ public final class Constants{
         public static final MotorInitialize arm = new MotorInitialize(
             10,
             new Gains(0.01,0,0.8,0,0,1),
-            new EncoderLimits(-66.9,0)
+            new EncoderLimits(-66.9,0),
+            false
         );
         public static final MotorInitialize wrist = new MotorInitialize(
             12,
             new Gains(0.4,0,0,0,0,1),
-            new EncoderLimits(-50, 50)
+            new EncoderLimits(-50, 50),
+            false
         );
         public static final MotorInitialize intake = new MotorInitialize(
             13,
             new Gains(0.005,0,0,0,0,1),
-            new EncoderLimits(0, 0)
+            new EncoderLimits(0, 0),
+            false
         );
         public static final MotorInitialize extendo = new MotorInitialize(
             11,
             new Gains(0.02,0,0.3,0,0,1),
-            new EncoderLimits(-11.97,5.59)
+            new EncoderLimits(-11.97,5.59),
+            false
         );
         public static final MotorInitialize lift = new MotorInitialize(
             15, 
             new Gains(0.02,0,0.3,0,0,1), 
-            new EncoderLimits(0,0)
+            new EncoderLimits(0,0),
+            true
         );
         public static final double intakePercentIn = 0;
         public static final double intakePercentOut = 0;
