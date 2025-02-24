@@ -34,13 +34,19 @@ public class RobotContainer {
   // create inputs
   public final XboxController xbox = new XboxController(0);
   //create Commands
-  // public final Swerve m_swerve = new Swerve();
-  public final SystemIdentificationSubsystem sysidSubsystem = new SystemIdentificationSubsystem(xbox);
+  public final Elevator m_elevator = new Elevator();
+  public final Swerve m_swerve = new Swerve();
+  public final Lift m_lift = new Lift();
+  // public final SystemIdentificationSubsystem sysidSubsystem = new SystemIdentificationSubsystem(xbox);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-  // public final SwerveCommand swerveCommand = new SwerveCommand(xbox, m_swerve);
+  public final ElevatorCommand m_elevatorCommand = new ElevatorCommand(m_elevator, xbox);
+  public final SwerveCommand swerveCommand = new SwerveCommand(xbox, m_swerve);
+  public final LiftCommand liftCommand = new LiftCommand(xbox, m_lift);
   //Default Constructor
   public RobotContainer(){
-    // m_swerve.setDefaultCommand(swerveCommand);
+    m_elevator.setDefaultCommand(m_elevatorCommand);
+    m_swerve.setDefaultCommand(swerveCommand);
+    m_lift.setDefaultCommand(liftCommand);
     // m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand(m_swerve));    
   }
 

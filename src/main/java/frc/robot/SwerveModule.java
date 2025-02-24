@@ -136,7 +136,9 @@ public class SwerveModule extends SubsystemBase{
         return powerController.getAppliedOutput() * powerController.getBusVoltage();
     }
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
-        desiredState = SwerveModuleState.optimize(desiredState, getState().angle);
+        // SwerveModuleState newDesiredState = SwerveModuleState.optimize(desiredState,getAngle());
+        desiredState.optimize(getAngle());
+        // desiredState.optimize(desiredState, getAngle());
         
         if (isOpenLoop){
             double percentOutput = desiredState.speedMetersPerSecond / kMaxSpeed;
@@ -169,20 +171,35 @@ public class SwerveModule extends SubsystemBase{
         // } else {
         //     steeringController.set(ControlMode.PercentOutput, 0); // Stop if error is small
         // }
-        steeringController.set(ControlMode.Position, desiredState.angle.getDegrees());
+        steeringController.set(ControlMode.Position, desiredState.angle.getRadians() / encoderToRadians);
     }
     public SwerveModuleState getState(){
         double velocity;
         Rotation2d azmimuth;
         velocity = powerEncoder.getVelocity();
-        azmimuth = Rotation2d.fromDegrees(steeringController.getSelectedSensorPosition());
+        azmimuth = Rotation2d.fromRadians(steeringController.getSelectedSensorPosition() * encoderToRadians);
         return new SwerveModuleState(velocity, azmimuth);
+    }
+    private double getDistance(double setpoint, double position) {
+        return Math.abs(setpoint - position);
+    }
+    private double findRevAngle(double radians) {
+        return (Math.PI * 2 + radians) % (2 * Math.PI) - Math.PI;
+    }
+    
+    public Rotation2d getAngle(){
+        return Rotation2d.fromRadians(steeringController.getSelectedSensorPosition() * encoderToRadians);
+    }
+    public double getTurningHeading() {
+        double heading = steeringController.getSelectedSensorPosition() * encoderToRadians;
+        heading %= 2 * Math.PI;
+        return heading;
     }
     public SwerveModulePosition getPosition(){
         double position;
         Rotation2d azmimuth;
         position = powerEncoder.getPosition();
-        azmimuth = Rotation2d.fromDegrees(steeringController.getSelectedSensorPosition());
+        azmimuth = Rotation2d.fromRadians(steeringController.getSelectedSensorPosition() * encoderToRadians);
         return new SwerveModulePosition(position, azmimuth);
     }
     public void turnModule(double speed){
