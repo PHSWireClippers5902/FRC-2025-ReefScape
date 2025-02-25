@@ -137,7 +137,8 @@ public class SwerveModule extends SubsystemBase{
     }
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
         // SwerveModuleState newDesiredState = SwerveModuleState.optimize(desiredState,getAngle());
-        desiredState.optimize(getAngle());
+        // desiredState.optimize(getAngle());
+        desiredState = CTREModuleState.optimize(desiredState, getAngle());
         // desiredState.optimize(desiredState, getAngle());
         
         if (isOpenLoop){
@@ -188,7 +189,7 @@ public class SwerveModule extends SubsystemBase{
     }
     
     public Rotation2d getAngle(){
-        return Rotation2d.fromRadians(steeringController.getSelectedSensorPosition() * encoderToRadians);
+        return Rotation2d.fromDegrees((steeringController.getSelectedSensorPosition() * 360.0 / 4096.0));
     }
     public double getTurningHeading() {
         double heading = steeringController.getSelectedSensorPosition() * encoderToRadians;

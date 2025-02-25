@@ -213,7 +213,32 @@ public class Elevator extends SubsystemBase{
     }
     
     
+    public void swapArmPID(boolean up){
+        if (up){
+            SparkMaxConfig newConfiguration = new SparkMaxConfig();
+            newConfiguration.idleMode(coastOrClear);
+    
+            newConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+            newConfiguration.closedLoop.pid(ArmHookConstants.arm.MotorGAINS.kP,ArmHookConstants.arm.MotorGAINS.kI,ArmHookConstants.arm.MotorGAINS.kD);
+            newConfiguration.closedLoop.maxOutput(ArmHookConstants.arm.MotorGAINS.kPeakOutput);
+            newConfiguration.inverted(ArmHookConstants.arm.MotorInverted);
+            
+            arm.configure(newConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        }
+        else {
+            SparkMaxConfig newConfiguration = new SparkMaxConfig();
+            newConfiguration.idleMode(coastOrClear);
 
+            newConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+            newConfiguration.closedLoop.pid(ArmHookConstants.arm.OptionalMotorGAINS.kP,ArmHookConstants.arm.OptionalMotorGAINS.kI,ArmHookConstants.arm.OptionalMotorGAINS.kD);
+            newConfiguration.closedLoop.maxOutput(ArmHookConstants.arm.MotorGAINS.kPeakOutput);
+            newConfiguration.inverted(ArmHookConstants.arm.MotorInverted);
+            
+            arm.configure(newConfiguration, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        }
+
+        
+    }
 
     public void intake(boolean in){
         // intake.set(in ? ArmHookConstants.intakePercentIn : ArmHookConstants.intakePercentOut);

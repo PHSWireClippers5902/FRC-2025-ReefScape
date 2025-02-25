@@ -47,7 +47,7 @@ public class Swerve extends SubsystemBase{
 
     private int poseErrorCounter, debugFlags;
 
-    private final SwerveDrivePoseEstimator odometry;
+    // private final SwerveDrivePoseEstimator odometry;
 
     private Pose2d currentPose, currentTelePose;
 
@@ -57,7 +57,7 @@ public class Swerve extends SubsystemBase{
 
     public boolean isAuto;
 
-    private final SysIdRoutine driveCharacterizer, angleCharacterizer;
+    // private final SysIdRoutine driveCharacterizer, angleCharacterizer;
 
     public Translation2d m_frontLeftLocation = new Translation2d(0.573,0.573);
     public Translation2d m_frontRightLocation = new Translation2d(0.573,-0.573);
@@ -103,7 +103,7 @@ public class Swerve extends SubsystemBase{
             currentModulePositions[i] = swerveModules[i].getPosition();
         }
 
-        odometry = new SwerveDrivePoseEstimator(m_kinematics, myGyro.getAng(), currentModulePositions, new Pose2d());
+        // odometry = new SwerveDrivePoseEstimator(m_kinematics, myGyro.getAng(), currentModulePositions, new Pose2d());
 
 
         currentPose = new Pose2d();
@@ -116,39 +116,39 @@ public class Swerve extends SubsystemBase{
         sternCam = new Field2d();
         bowCam = new Field2d();
 
-        driveCharacterizer = new SysIdRoutine(
-        new SysIdRoutine.Config(),
-        new SysIdRoutine.Mechanism(
-            (Voltage volts) -> {
-            for (SwerveModule module : this.swerveModules) {
-                module.setAzimuth(new Rotation2d());
-                module.setDriveVolts(volts.in(Volts));
-            }
-            },
-            log -> {
-            log.motor("driveLinear")
-            .voltage(Volts.of(avgDriveVolts()))
-            .linearPosition(Meters.of(odometry.getEstimatedPosition().getX()))
-            .linearVelocity(MetersPerSecond.of(getRobotVelocity().vxMetersPerSecond));
-            },
-            this));
+        // driveCharacterizer = new SysIdRoutine(
+        // new SysIdRoutine.Config(),
+        // new SysIdRoutine.Mechanism(
+        //     (Voltage volts) -> {
+        //     for (SwerveModule module : this.swerveModules) {
+        //         module.setAzimuth(new Rotation2d());
+        //         module.setDriveVolts(volts.in(Volts));
+        //     }
+        //     },
+        //     log -> {
+        //     log.motor("driveLinear")
+        //     .voltage(Volts.of(avgDriveVolts()))
+        //     .linearPosition(Meters.of(odometry.getEstimatedPosition().getX()))
+        //     .linearVelocity(MetersPerSecond.of(getRobotVelocity().vxMetersPerSecond));
+        //     },
+        //     this));
         
-        angleCharacterizer = new SysIdRoutine(
-        new SysIdRoutine.Config(),
-        new SysIdRoutine.Mechanism(
-            (Voltage volts) -> {
-            for (SwerveModule module : this.swerveModules) {
-                module.setAzimuth(module.getModuleLocation().getAngle().plus(Rotation2d.fromDegrees(90)));
-                module.setDriveVolts(volts.in(Volts));
-            }
-            },
-            log -> {
-            log.motor("driveAngular")
-            .voltage(Volts.of(avgDriveVolts()))
-            .angularPosition(Radians.of(currentPose.getRotation().getRadians()))
-            .angularVelocity(RadiansPerSecond.of(getRobotVelocity().omegaRadiansPerSecond));
-            },
-            this));
+        // angleCharacterizer = new SysIdRoutine(
+        // new SysIdRoutine.Config(),
+        // new SysIdRoutine.Mechanism(
+        //     (Voltage volts) -> {
+        //     for (SwerveModule module : this.swerveModules) {
+        //         module.setAzimuth(module.getModuleLocation().getAngle().plus(Rotation2d.fromDegrees(90)));
+        //         module.setDriveVolts(volts.in(Volts));
+        //     }
+        //     },
+        //     log -> {
+        //     log.motor("driveAngular")
+        //     .voltage(Volts.of(avgDriveVolts()))
+        //     .angularPosition(Radians.of(currentPose.getRotation().getRadians()))
+        //     .angularVelocity(RadiansPerSecond.of(getRobotVelocity().omegaRadiansPerSecond));
+        //     },
+        //     this));
 
 
 

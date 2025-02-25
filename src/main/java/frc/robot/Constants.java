@@ -7,7 +7,8 @@ public final class Constants{
             10,
             new Gains(0.01,0,0.8,0,0,1),
             new EncoderLimits(-66.9,0),
-            false
+            false,
+            new Gains(0.01,0,0.8,0,0,1)
         );
         public static final MotorInitialize wrist = new MotorInitialize(
             12,
@@ -53,9 +54,9 @@ public final class Constants{
 
         public static boolean kSensorPhase = true;
 
-        public static boolean kMotorInvert = false;
+        public static boolean kMotorInvert = true;
 
-        public static final Gains kGains = new Gains(0.3, 0.0000, 0.5, 0.0, 0, 1.0);
+        public static final Gains kGains = new Gains(0.5, 0.0000, 1, 0.0, 0, 1.0);
 
         // public static final double drivekP = ;
         // public static final double drivekI = ;

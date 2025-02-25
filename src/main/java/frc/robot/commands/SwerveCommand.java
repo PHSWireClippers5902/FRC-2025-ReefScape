@@ -41,7 +41,7 @@ public class SwerveCommand extends Command {
             xSpeed = -daDirection*applyDeadband(myXbox.getLeftY()) * kMaxSpeed*0.2;
             // double ySpeed = 0,rot = 0;
             // double rot = 0;
-            ySpeed = daDirection*applyDeadband(myXbox.getLeftX()) * kMaxSpeed*0.2;
+            ySpeed = -daDirection*applyDeadband(myXbox.getLeftX()) * kMaxSpeed*0.2;
             rot = -applyZedDeadband(myXbox.getRightX()) * kMaxAngularSpeed*0.6;
         }
         // if (myXbox.getRightBumper()){

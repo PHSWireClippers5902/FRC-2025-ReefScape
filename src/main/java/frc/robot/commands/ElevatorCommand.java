@@ -10,6 +10,7 @@ public class ElevatorCommand extends Command{
     
     public Elevator elevator;
     public XboxController xbox;
+    public boolean proccedUpDown = false;
     public ElevatorCommand(Elevator elevatorSystem, XboxController m_xbox){
         xbox = m_xbox;
         elevator = elevatorSystem;
