@@ -1,5 +1,8 @@
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.revrobotics.spark.SparkBase.ControlType;
+
 // import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -63,10 +66,15 @@ public class SwerveCommand extends Command {
         SmartDashboard.putNumber("Back Right Position: " , mySwerve.m_backRight.steeringController.getSelectedSensorPosition(0)*360/4096);
         
         mySwerve.drive(xSpeed,ySpeed,rot,fieldRelative,0.02);
-        // mySwerve.m_frontLeft.steeringController.set(0.1);
-        // mySwerve.m_frontRight.steeringController.set(0.1);
-        // mySwerve.m_backLeft.steeringController.set(0.1);
-        // mySwerve.m_backRight.steeringController.set(0.1);
+        // mySwerve.m_frontLeft.steeringController.set(ControlMode.Position,135 * 4096 / 360);
+        // mySwerve.m_frontRight.steeringController.set(ControlMode.Position,45 * 4096 / 360);
+        // mySwerve.m_backLeft.steeringController.set(ControlMode.Position,-135 * 4096 / 360);
+        // mySwerve.m_backRight.steeringController.set(ControlMode.Position,-45 * 4096 / 360);
+
+        // mySwerve.m_frontLeft.powerController.set(0.1);
+        // mySwerve.m_frontRight.powerController.set(0.1);
+        // mySwerve.m_backLeft.powerController.set(0.1);
+        // mySwerve.m_backRight.powerController.set(0.1);
 
     }
     private double applyDeadband(double value) {

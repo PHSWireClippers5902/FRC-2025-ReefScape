@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Elevator extends SubsystemBase{
 
-    public IdleMode coastOrClear = IdleMode.kBrake;
+    public IdleMode coastOrClear = IdleMode.kCoast;
 
     //all wrist initialization
     public SparkMax wrist;

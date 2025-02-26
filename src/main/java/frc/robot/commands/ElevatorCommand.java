@@ -24,24 +24,31 @@ public class ElevatorCommand extends Command{
         SmartDashboard.putNumber("Wrist", elevator.getWristPosition());
         SmartDashboard.putNumber("Intake", elevator.getIntakePosition());
         SmartDashboard.putNumber("Extendo", elevator.getExtendoPosition());
+        
         if (xbox.getAButton()){
             // elevator.powerMovement(new double[]{-22,0,-10});
-            elevator.powerMovement(new double[]{-35,0,0});
+            if (elevator.getArmPosition() > -12){
+                elevator.armExtendoMovement(new double[]{ArmHookConstants.rest[0],0});
+            }
+            else { 
+                elevator.powerMovement(ArmHookConstants.rest);
+            }
         }
         else if (xbox.getBButton()){
             elevator.powerMovement(ArmHookConstants.intakePosUp);
         }
-        else if (xbox.getRightBumperButton()){
+        else if (xbox.getXButton()){
+            elevator.powerMovement(ArmHookConstants.stageThree);
+        }
+        else if (xbox.getYButton()){
+            elevator.powerMovement(ArmHookConstants.intakePosDown);
+        }
+        
+         if (xbox.getRightBumperButton()){
             elevator.intake(true);
         }
         else if (xbox.getLeftBumperButton()){
             elevator.intake(false);
-        }
-        else if (xbox.getXButton()){
-            elevator.wristExtendoMovement(new double[]{0,-8});
-        }
-        else if (xbox.getYButton()){
-            elevator.wristExtendoMovement(new double[]{0,0});
         }
         else {
             elevator.moveIntake_ONLY_IN_EMERGENCIES(0);

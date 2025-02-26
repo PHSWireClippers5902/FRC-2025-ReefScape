@@ -6,10 +6,10 @@ import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+// import com.pathplanner.lib.auto.AutoBuilder;
+// import com.pathplanner.lib.config.PIDConstants;
+// import com.pathplanner.lib.config.RobotConfig;
+// import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -200,6 +200,12 @@ public class Swerve extends SubsystemBase{
         m_frontRight.setDesiredState(swerveModuleStates[1], true);
         m_backLeft.setDesiredState(swerveModuleStates[2], true);
         m_backRight.setDesiredState(swerveModuleStates[3], true);
+
+        SmartDashboard.putString("Front Left Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[0].angle.getDegrees(), swerveModuleStates[0].speedMetersPerSecond));
+        SmartDashboard.putString("Front Right Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[1].angle.getDegrees(), swerveModuleStates[1].speedMetersPerSecond));
+        SmartDashboard.putString("Back Left Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[2].angle.getDegrees(), swerveModuleStates[2].speedMetersPerSecond));
+        SmartDashboard.putString("Back Right Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[3].angle.getDegrees(), swerveModuleStates[3].speedMetersPerSecond));
+        
         // SmartDashboard.putNumber("FL Distance: ", m_frontLeft.steeringController.getSelectedSensorPosition(0));
         // SmartDashboard.putNumber("FL Speed: "  , m_frontLeft.steeringController.getSelectedSensorVelocity(0));
     }
@@ -210,12 +216,21 @@ public class Swerve extends SubsystemBase{
         SwerveDriveKinematics.desaturateWheelSpeeds(
             swerveModuleStates,kMaxSpeed
         );
+        SmartDashboard.putNumber("Gyro reading", myGyro.m_gyro.getAngle());
         m_frontLeft.setDesiredState(swerveModuleStates[0], true);
         m_frontRight.setDesiredState(swerveModuleStates[1], true);
         m_backLeft.setDesiredState(swerveModuleStates[2], true);
         m_backRight.setDesiredState(swerveModuleStates[3], true);
-        SmartDashboard.putNumber("FL Distance: ", m_frontLeft.steeringController.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("FL Speed: "  , m_frontLeft.steeringController.getSelectedSensorVelocity(0));
+        // SmartDashboard.putNumber("FL Distance: ", m_frontLeft.steeringController.getSelectedSensorPosition(0));
+        // SmartDashboard.putNumber("FL Speed: "  , m_frontLeft.steeringController.getSelectedSensorVelocity(0));
+        
+        
+        SmartDashboard.putString("Front Left Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[0].angle.getDegrees(), swerveModuleStates[0].speedMetersPerSecond));
+        SmartDashboard.putString("Front Right Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[1].angle.getDegrees(), swerveModuleStates[1].speedMetersPerSecond));
+        SmartDashboard.putString("Back Left Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[2].angle.getDegrees(), swerveModuleStates[2].speedMetersPerSecond));
+        SmartDashboard.putString("Back Right Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[3].angle.getDegrees(), swerveModuleStates[3].speedMetersPerSecond));
+        
+        
         // SmartDashboard.putRaw("Translation2d: ", myGyro.m_gyro.getRotation2d());
         // SmartDashboard.putNumber("Yaw: ",myGyro.m_gyro.getYaw());
         // SmartDashboard.putNumber("Pitch: ",myGyro.m_gyro.getPitch());

@@ -41,14 +41,14 @@ public class SwerveModule extends SubsystemBase{
     public WPI_TalonSRX steeringController;
     public RelativeEncoder powerEncoder;
     public SparkClosedLoopController powerPIDController;
-    public Translation2d moduleLocation;
+    // public Translation2d moduleLocation;
 
     private SimpleMotorFeedforward feedforward;
 
 
     public SwerveModule(int powerID, int steeringID,boolean powerInvert){
         //set constants for module location
-        moduleLocation = new Translation2d(Constants.Translations.xPos,Constants.Translations.yPos);
+        // moduleLocation = new Translation2d(Constants.Translations.xPos,Constants.Translations.yPos);
 
         powerController = new SparkMax(powerID,MotorType.kBrushless);
         powerConfigurer = new SparkMaxConfig();
@@ -104,9 +104,9 @@ public class SwerveModule extends SubsystemBase{
 
         
     }
-    public Translation2d getModuleLocation() {
-        return moduleLocation;
-    }
+    // public Translation2d getModuleLocation() {
+    //     return moduleLocation;
+    // }
     public void setVelocityGains(double kp, double ki, double kd, double ks, double kv, double ka){
         feedforward = new SimpleMotorFeedforward(ks, kv, ka);
         powerConfigurer.closedLoop.pid(kp,ki,kd);
@@ -136,6 +136,7 @@ public class SwerveModule extends SubsystemBase{
         return powerController.getAppliedOutput() * powerController.getBusVoltage();
     }
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
+        
         // SwerveModuleState newDesiredState = SwerveModuleState.optimize(desiredState,getAngle());
         // desiredState.optimize(getAngle());
         desiredState = CTREModuleState.optimize(desiredState, getAngle());
@@ -172,7 +173,8 @@ public class SwerveModule extends SubsystemBase{
         // } else {
         //     steeringController.set(ControlMode.PercentOutput, 0); // Stop if error is small
         // }
-        steeringController.set(ControlMode.Position, desiredState.angle.getRadians() / encoderToRadians);
+
+        steeringController.set(ControlMode.Position, desiredState.angle.getDegrees() * 4096 / 360);
     }
     public SwerveModuleState getState(){
         double velocity;
