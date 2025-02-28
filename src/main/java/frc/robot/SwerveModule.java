@@ -43,10 +43,13 @@ public class SwerveModule extends SubsystemBase{
     public SparkClosedLoopController powerPIDController;
     // public Translation2d moduleLocation;
 
+    public int powerIDd;
     private SimpleMotorFeedforward feedforward;
 
 
-    public SwerveModule(int powerID, int steeringID,boolean powerInvert){
+    public SwerveModule(int powerID, int steeringID,boolean powerInvert, double absoluteChange){
+        //temp variable remove
+        powerIDd = powerID;
         //set constants for module location
         // moduleLocation = new Translation2d(Constants.Translations.xPos,Constants.Translations.yPos);
 
@@ -99,11 +102,18 @@ public class SwerveModule extends SubsystemBase{
         steeringController.configSelectedFeedbackCoefficient(1/kEncoderResolution,0,0);
         
         //sets the relative sensor to match absolute
-        steeringController.setSelectedSensorPosition(0,SwervePIDConstants.kPIDLoopIdx,SwervePIDConstants.kTimeoutMs);
+        // int absolutePosition = steeringController.getSensorCollection().getPulseWidthPosition() & 0xFFF; // Mask out to 12-bit value
+        steeringController.setSelectedSensorPosition(0, SwervePIDConstants.kPIDLoopIdx, SwervePIDConstants.kTimeoutMs);
+        // steeringController.setSelectedSensorPosition(,SwervePIDConstants.kPIDLoopIdx,SwervePIDConstants.kTimeoutMs);
 
 
         
     }
+    // @Override
+    // public void periodic() {
+    //     SmartDashboard.putNumber("Absolute Sensor Position: " + powerIDd, steeringController.getSelectedSensorPosition());
+        
+    // }
     // public Translation2d getModuleLocation() {
     //     return moduleLocation;
     // }

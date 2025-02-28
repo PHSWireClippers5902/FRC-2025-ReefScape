@@ -125,7 +125,7 @@ public class Elevator extends SubsystemBase{
         //create the arm configuration
         intakeConfiguration = new SparkMaxConfig();
         //ONCE YOU FINISH TESTING, SET IDLE MODE TO BRAKE (UNCOMMENT THE LINE BELOW)
-        intakeConfiguration.idleMode(coastOrClear);
+        intakeConfiguration.idleMode(IdleMode.kBrake);
         
 
         intakeConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);

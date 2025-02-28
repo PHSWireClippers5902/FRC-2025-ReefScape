@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.Constants.AbsoluteChange;
 // import frc.robot.Constants;
 import frc.robot.Constants.SwerveCANConstants;
 import frc.robot.SwerveModule;
@@ -64,10 +65,10 @@ public class Swerve extends SubsystemBase{
     public Translation2d m_backLeftLocation = new Translation2d(-0.573,0.573);
     public Translation2d m_backRightLocation = new Translation2d(-0.573,-0.573);
 
-    public SwerveModule m_frontLeft = new SwerveModule(SwerveCANConstants.kFrontLeftDrivingCanId,SwerveCANConstants.kFrontLeftTurningCanId,false);
-    public SwerveModule m_frontRight = new SwerveModule(SwerveCANConstants.kFrontRightDrivingCanId,SwerveCANConstants.kFrontRightTurningCanId,true);
-    public SwerveModule m_backLeft = new SwerveModule(SwerveCANConstants.kRearLeftDrivingCanId,SwerveCANConstants.kRearLeftTurningCanId,false);
-    public SwerveModule m_backRight = new SwerveModule(SwerveCANConstants.kRearRightDrivingCanId,SwerveCANConstants.kRearRightTurningCanId,true);
+    public SwerveModule m_frontLeft = new SwerveModule(SwerveCANConstants.kFrontLeftDrivingCanId,SwerveCANConstants.kFrontLeftTurningCanId,false, AbsoluteChange.FrontLeftChange);
+    public SwerveModule m_frontRight = new SwerveModule(SwerveCANConstants.kFrontRightDrivingCanId,SwerveCANConstants.kFrontRightTurningCanId,true,AbsoluteChange.FrontRightChange);
+    public SwerveModule m_backLeft = new SwerveModule(SwerveCANConstants.kRearLeftDrivingCanId,SwerveCANConstants.kRearLeftTurningCanId,false,AbsoluteChange.BackLeftChange);
+    public SwerveModule m_backRight = new SwerveModule(SwerveCANConstants.kRearRightDrivingCanId,SwerveCANConstants.kRearRightTurningCanId,true,AbsoluteChange.BackRightChange);
     public SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
                                                 m_frontLeftLocation,
                                                 m_frontRightLocation,
@@ -210,13 +211,13 @@ public class Swerve extends SubsystemBase{
         // SmartDashboard.putNumber("FL Speed: "  , m_frontLeft.steeringController.getSelectedSensorVelocity(0));
     }
     public void drive(double xSpeed,double ySpeed, double rot, boolean fieldRelative, double periodSeconds){
-        ChassisSpeeds chassisSpeed = fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed,rot,Rotation2d.fromDegrees(myGyro.m_gyro.getAngle()))
+        ChassisSpeeds chassisSpeed = fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed,rot,Rotation2d.fromDegrees(myGyro.getAng().getDegrees()))
                                                     : new ChassisSpeeds(xSpeed,ySpeed,rot);
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeed);
         SwerveDriveKinematics.desaturateWheelSpeeds(
             swerveModuleStates,kMaxSpeed
         );
-        SmartDashboard.putNumber("Gyro reading", myGyro.m_gyro.getAngle());
+        SmartDashboard.putNumber("Gyro reading", myGyro.getAng().getDegrees());
         m_frontLeft.setDesiredState(swerveModuleStates[0], true);
         m_frontRight.setDesiredState(swerveModuleStates[1], true);
         m_backLeft.setDesiredState(swerveModuleStates[2], true);

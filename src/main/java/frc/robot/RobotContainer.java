@@ -33,13 +33,14 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class RobotContainer {
   // create inputs
   public final XboxController xbox = new XboxController(0);
+  public final Joystick joystick = new Joystick(1);
   //create Commands
   public final Elevator m_elevator = new Elevator();
   public final Swerve m_swerve = new Swerve();
   public final Lift m_lift = new Lift();
   // public final SystemIdentificationSubsystem sysidSubsystem = new SystemIdentificationSubsystem(xbox);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-  public final ElevatorCommand m_elevatorCommand = new ElevatorCommand(m_elevator, xbox);
+  public final ElevatorCommand m_elevatorCommand = new ElevatorCommand(m_elevator, xbox, joystick);
   public final SwerveCommand swerveCommand = new SwerveCommand(xbox, m_swerve);
   public final LiftCommand liftCommand = new LiftCommand(xbox, m_lift);
   //Default Constructor
@@ -57,6 +58,9 @@ public class RobotContainer {
   //for some reason it is important............. idk why
   public XboxController getXbox() {
     return xbox;
+  }
+  public Joystick getJoystick() {
+    return joystick;
   }
   //gets command to run in autonomous
   public Command getAutonomousCommand() {

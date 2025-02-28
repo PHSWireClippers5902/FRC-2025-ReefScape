@@ -13,11 +13,14 @@ public class SwerveCommand extends Command {
     // public Joystick myJoystick;
     public XboxController myXbox;
     public Swerve mySwerve;
-    private static final double kDeadband = 0.3;
+    private static final double kDeadband = 0.2;
     public double daDirection = 1;
-    private static final double kZedDeadBand = 0.3;
+    private static final double kZedDeadBand = 0.2;
     private static final double kMaxSpeed = Swerve.kMaxSpeed;
     private static final double kMaxAngularSpeed = Swerve.kMaxAngularSpeed;
+    public boolean fieldRelative = false;
+
+    public boolean hasProcced = true;
     double xSpeed,ySpeed,rot;
     public SwerveCommand(XboxController xbox, Swerve m_s){
         myXbox = xbox;
@@ -28,7 +31,6 @@ public class SwerveCommand extends Command {
     public void execute() {
         
 
-        boolean fieldRelative = false;
         // if (myJoystick.getRawButton(0)){
 
         // }
@@ -41,11 +43,11 @@ public class SwerveCommand extends Command {
             rot = -applyZedDeadband(myXbox.getRightX()) * kMaxAngularSpeed*0.2;
         }
         else {
-            xSpeed = -daDirection*applyDeadband(myXbox.getLeftY()) * kMaxSpeed*0.2;
+            xSpeed = -daDirection*applyDeadband(myXbox.getLeftY()) * kMaxSpeed*0.1;
             // double ySpeed = 0,rot = 0;
             // double rot = 0;
-            ySpeed = -daDirection*applyDeadband(myXbox.getLeftX()) * kMaxSpeed*0.2;
-            rot = -applyZedDeadband(myXbox.getRightX()) * kMaxAngularSpeed*0.6;
+            ySpeed = -daDirection*applyDeadband(myXbox.getLeftX()) * kMaxSpeed*0.1;
+            rot = -applyZedDeadband(myXbox.getRightX()) * kMaxAngularSpeed*0.2;
         }
         // if (myXbox.getRightBumper()){
         //     daDirection = -1;
@@ -59,7 +61,23 @@ public class SwerveCommand extends Command {
         // if (myXbox.getAButton()){
         //     mySwerve.myGyro.m_gyro.reset();
         // }
+        if (myXbox.getRightTriggerAxis() > 0.2){
+            mySwerve.myGyro.reset();
+        }
+        if (myXbox.getLeftTriggerAxis() > 0.2){
+            if (hasProcced){
+                hasProcced = false;
+                fieldRelative = !fieldRelative;
+                
+            }
+        }
+        else {
+            hasProcced = true;
+        }
         
+
+        SmartDashboard.putBoolean("Field Relative: ", fieldRelative);
+
         SmartDashboard.putNumber("Front Left Position: " ,mySwerve.m_frontLeft.steeringController.getSelectedSensorPosition(0)*360/4096);
         SmartDashboard.putNumber("Front Right Position: " ,mySwerve.m_frontRight.steeringController.getSelectedSensorPosition(0)*360/4096);
         SmartDashboard.putNumber("Back Left Position: " ,mySwerve.m_backLeft.steeringController.getSelectedSensorPosition(0)*360/4096);
