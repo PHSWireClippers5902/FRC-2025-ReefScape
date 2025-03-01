@@ -5,15 +5,15 @@ public final class Constants{
         //CHANGE BEFORE USAGE
         public static final MotorInitialize arm = new MotorInitialize(
             10,
-            new Gains(0.012,0,0.8,0,0,1),
-            new EncoderLimits(-35,0),
+            new Gains(0.018,0,0.8,0,0,0.5),
+            new EncoderLimits(-38,0),
             false,
             new Gains(0.008,0,0.8,0,0,1)
         );
         public static final MotorInitialize wrist = new MotorInitialize(
             12,
             new Gains(0.02,0,0,0,0,1),
-            new EncoderLimits(-60, 60),
+            new EncoderLimits(-80, 80),
             false
         );
         public static final MotorInitialize intake = new MotorInitialize(

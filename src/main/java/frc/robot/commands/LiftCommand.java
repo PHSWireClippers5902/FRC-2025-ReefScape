@@ -15,14 +15,14 @@ public class LiftCommand extends Command{
     //execute order 66
     @Override
     public void execute() {
-        if (xbox.getPOV() == 90){
-            lift.moveLift(0.2);
-        }
-        else if (xbox.getPOV() == 270){
-            lift.moveLift(-0.2);
-        }
-        else {
-            lift.moveLift(0);
-        }
+        // if (xbox.getPOV() == 90){
+        //     lift.moveLift(0.2);
+        // }
+        // else if (xbox.getPOV() == 270){
+        //     lift.moveLift(-0.2);
+        // }
+        // else {
+        //     lift.moveLift(0);
+        // }
     }
 }

@@ -267,7 +267,7 @@ public class Elevator extends SubsystemBase{
     //ASSUMING PROPER LIMITATIONS: ENSURE LEFT LIMIT AND RIGHT LIMIT AREN'T NEGATIVE OR SOMETHING
     public void setArmReference(double reference){
         reference = (reference < ARM_LEFT_LIMIT) ? ARM_LEFT_LIMIT : reference;
-        reference = (reference > ARM_RIGHT_LIMIT) ? ARM_LEFT_LIMIT : reference;
+        reference = (reference > ARM_RIGHT_LIMIT) ? ARM_RIGHT_LIMIT : reference;
         armController.setReference(reference,ControlType.kPosition);
     }
     public void setWristReference(double reference){

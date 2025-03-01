@@ -60,10 +60,10 @@ public class Swerve extends SubsystemBase{
 
     // private final SysIdRoutine driveCharacterizer, angleCharacterizer;
 
-    public Translation2d m_frontLeftLocation = new Translation2d(0.573,0.573);
-    public Translation2d m_frontRightLocation = new Translation2d(0.573,-0.573);
-    public Translation2d m_backLeftLocation = new Translation2d(-0.573,0.573);
-    public Translation2d m_backRightLocation = new Translation2d(-0.573,-0.573);
+    public Translation2d m_frontLeftLocation = new Translation2d(0.40411,0.40411);
+    public Translation2d m_frontRightLocation = new Translation2d(0.40411,-0.40411);
+    public Translation2d m_backLeftLocation = new Translation2d(-0.40411,0.40411);
+    public Translation2d m_backRightLocation = new Translation2d(-0.40411,-0.40411);
 
     public SwerveModule m_frontLeft = new SwerveModule(SwerveCANConstants.kFrontLeftDrivingCanId,SwerveCANConstants.kFrontLeftTurningCanId,false, AbsoluteChange.FrontLeftChange);
     public SwerveModule m_frontRight = new SwerveModule(SwerveCANConstants.kFrontRightDrivingCanId,SwerveCANConstants.kFrontRightTurningCanId,true,AbsoluteChange.FrontRightChange);
@@ -202,18 +202,18 @@ public class Swerve extends SubsystemBase{
         m_backLeft.setDesiredState(swerveModuleStates[2], true);
         m_backRight.setDesiredState(swerveModuleStates[3], true);
 
-        SmartDashboard.putString("Front Left Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[0].angle.getDegrees(), swerveModuleStates[0].speedMetersPerSecond));
-        SmartDashboard.putString("Front Right Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[1].angle.getDegrees(), swerveModuleStates[1].speedMetersPerSecond));
-        SmartDashboard.putString("Back Left Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[2].angle.getDegrees(), swerveModuleStates[2].speedMetersPerSecond));
-        SmartDashboard.putString("Back Right Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[3].angle.getDegrees(), swerveModuleStates[3].speedMetersPerSecond));
+        // SmartDashboard.putString("Front Left Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[0].angle.getDegrees(), swerveModuleStates[0].speedMetersPerSecond));
+        // SmartDashboard.putString("Front Right Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[1].angle.getDegrees(), swerveModuleStates[1].speedMetersPerSecond));
+        // SmartDashboard.putString("Back Left Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[2].angle.getDegrees(), swerveModuleStates[2].speedMetersPerSecond));
+        // SmartDashboard.putString("Back Right Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[3].angle.getDegrees(), swerveModuleStates[3].speedMetersPerSecond));
         
         // SmartDashboard.putNumber("FL Distance: ", m_frontLeft.steeringController.getSelectedSensorPosition(0));
         // SmartDashboard.putNumber("FL Speed: "  , m_frontLeft.steeringController.getSelectedSensorVelocity(0));
     }
-    public void drive(double xSpeed,double ySpeed, double rot, boolean fieldRelative, double periodSeconds){
+    public void drive(double xSpeed,double ySpeed, double rot, boolean fieldRelative, double periodSeconds, Translation2d center){
         ChassisSpeeds chassisSpeed = fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed,rot,Rotation2d.fromDegrees(myGyro.getAng().getDegrees()))
                                                     : new ChassisSpeeds(xSpeed,ySpeed,rot);
-        var swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeed);
+        var swerveModuleStates = m_kinematics.toSwerveModuleStates(chassisSpeed, center);
         SwerveDriveKinematics.desaturateWheelSpeeds(
             swerveModuleStates,kMaxSpeed
         );
@@ -226,10 +226,10 @@ public class Swerve extends SubsystemBase{
         // SmartDashboard.putNumber("FL Speed: "  , m_frontLeft.steeringController.getSelectedSensorVelocity(0));
         
         
-        SmartDashboard.putString("Front Left Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[0].angle.getDegrees(), swerveModuleStates[0].speedMetersPerSecond));
-        SmartDashboard.putString("Front Right Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[1].angle.getDegrees(), swerveModuleStates[1].speedMetersPerSecond));
-        SmartDashboard.putString("Back Left Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[2].angle.getDegrees(), swerveModuleStates[2].speedMetersPerSecond));
-        SmartDashboard.putString("Back Right Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[3].angle.getDegrees(), swerveModuleStates[3].speedMetersPerSecond));
+        // SmartDashboard.putString("Front Left Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[0].angle.getDegrees(), swerveModuleStates[0].speedMetersPerSecond));
+        // SmartDashboard.putString("Front Right Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[1].angle.getDegrees(), swerveModuleStates[1].speedMetersPerSecond));
+        // SmartDashboard.putString("Back Left Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[2].angle.getDegrees(), swerveModuleStates[2].speedMetersPerSecond));
+        // SmartDashboard.putString("Back Right Desired State: ", String.format("Deg: %.2f, Speed: %.2f",swerveModuleStates[3].angle.getDegrees(), swerveModuleStates[3].speedMetersPerSecond));
         
         
         // SmartDashboard.putRaw("Translation2d: ", myGyro.m_gyro.getRotation2d());
