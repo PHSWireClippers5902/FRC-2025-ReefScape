@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.EncoderLimits;
 import frc.robot.MotorInitialize;
+import frc.robot.Constants.ArmExtendoK;
 import frc.robot.Constants.ArmHookConstants;
 import frc.robot.subsystems.Elevator;
 
@@ -47,7 +48,7 @@ public class ElevatorCommand extends Command{
     public double k = 30;
     public void whatLimitShouldBeExtendo(){
         
-        if (elevator.getArmPosition() > -8.7){
+        if (elevator.getArmPosition() > -8.5){
             extendoLeftLimit = ArmHookConstants.extendo.MotorLIMITS.leftLimit;
         } else {
         extendoLeftLimit =  - k * Math.abs( Math.cos(Units.degreesToRadians(90-55.54+55.54*-elevator.getArmPosition()/18.547564)))* Math.abs( Math.cos(Units.degreesToRadians(90-55.54+55.54*-elevator.getArmPosition()/18.547564)));
@@ -118,7 +119,7 @@ public class ElevatorCommand extends Command{
                 targets[0]-=armSpeedUp;
             }
             else {
-                whatLimitShouldBeExtendo();
+                // whatLimitShouldBeExtendo();
                 targets[0] = ArmHookConstants.arm.MotorLIMITS.leftLimit;
             }
         }
@@ -205,6 +206,23 @@ public class ElevatorCommand extends Command{
         }
         
         
+
+
+
+        //all presets
+        //bottom left
+        if (joystick.getRawButton(7)){
+            //goes to the top preset position
+            targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageFour[0],ArmExtendoK.arms);
+            targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageFour[2],ArmExtendoK.extendos);
+        }else if (joystick.getRawButton(8)){
+            //goes to rest position middle
+            targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.intakePosDown[0],ArmExtendoK.arms);
+            targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.intakePosDown[2],ArmExtendoK.extendos);
+        }else if (joystick.getRawButton(9)){
+            //
+            
+        }
         
        
 
@@ -258,6 +276,10 @@ public class ElevatorCommand extends Command{
         elevator.moveIntake_ONLY_IN_EMERGENCIES(intake);
 
 
+    }
+    public double calculateDifference(double currentPos, double targetPos, double kConst){
+        // double kConst = 0.01;
+        return kConst * (targetPos - currentPos);
     }
 
 }

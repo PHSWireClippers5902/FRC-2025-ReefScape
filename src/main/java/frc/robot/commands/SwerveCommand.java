@@ -120,8 +120,11 @@ public class SwerveCommand extends Command {
         }
         if (myXbox.getLeftStickButton()){
             if (llvalues.getTv() > 0){
-                double[] testSpeeds = getLimelightAlignmentSpeeds(0,20);
-                mySwerve.drive(testSpeeds[0],0,testSpeeds[1],false,0.1,new Translation2d(0,0));
+                double[] testSpeeds = getLimelightAlignmentSpeeds(0,30);
+                mySwerve.drive(testSpeeds[1],0,testSpeeds[0],false,0.1,new Translation2d(0,0));
+            }
+            else {
+                mySwerve.drive(xSpeed,ySpeed,rot,fieldRelative,0.02, customCenter);
             }
         }
         else {
@@ -153,8 +156,8 @@ public class SwerveCommand extends Command {
         double xspeed = kx * (tx-targetXAngle);
         double yspeed = ky * (ty - inchesFromGoal);
 
-        xspeed = Math.abs(xspeed) > 0.5 ? 0.5 : xspeed;
-        yspeed = Math.abs(yspeed) > 0.5 ? -0.5 : -yspeed;
+        xspeed = Math.abs(xspeed) > 0.5 ? -0.5 : -xspeed;
+        yspeed = Math.abs(yspeed) > 0.5 ? 0.5 : yspeed;
 
         return new double[]{xspeed,yspeed};
     }

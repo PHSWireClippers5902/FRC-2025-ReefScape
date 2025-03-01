@@ -31,6 +31,7 @@ public class AutonomousCommand extends Command{
     public void initialize() {
         //init command, stub
         timer.reset();
+        timer.start();
     }
 
     @Override
@@ -107,8 +108,8 @@ public class AutonomousCommand extends Command{
         double xspeed = kx * (tx-targetXAngle);
         double yspeed = ky * (ty - inchesFromGoal);
 
-        xspeed = Math.abs(xspeed) > 0.5 ? 0.5 : xspeed;
-        yspeed = Math.abs(yspeed) > 0.5 ? -0.5 : -yspeed;
+        xspeed = Math.abs(xspeed) > 0.5 ? -0.5 : -xspeed;
+        yspeed = Math.abs(yspeed) > 0.5 ? 0.5 : yspeed;
 
         return new double[]{xspeed,yspeed};
     }

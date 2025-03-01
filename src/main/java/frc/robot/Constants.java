@@ -6,7 +6,7 @@ public final class Constants{
         public static final MotorInitialize arm = new MotorInitialize(
             10,
             new Gains(0.018,0,0.8,0,0,0.5),
-            new EncoderLimits(-38,0),
+            new EncoderLimits(-42,1),
             false,
             new Gains(0.008,0,0.8,0,0,1)
         );
@@ -25,7 +25,7 @@ public final class Constants{
         public static final MotorInitialize extendo = new MotorInitialize(
             11,
             new Gains(0.15,0,0.3,0,0,1),
-            new EncoderLimits(-15.97,0),
+            new EncoderLimits(-17.2,0.01),
             false
         );
         public static final MotorInitialize lift = new MotorInitialize(
@@ -36,16 +36,14 @@ public final class Constants{
         );
         public static final double intakePercentIn = 0;
         public static final double intakePercentOut = 0;
-        public static final double[] rest = {-20,48.285492,-2.38};
-        public static final double[] stageOne = {-14.59248,50.404747,-0.642857};
-        public static final double[] stageTwo = {0,0,0};
-        public static final double[] stageThree = {-14.809139,21.309427,-1.190477};
-        public static final double[] stageFour = {0,0,0};
-        public static final double[] amp = {0,0,0};
-        public static final double[] intakePosUp = {-1.523810,35.213959,-12.333380};
-        public static final double[] intakePosDown = {-13.35,50.642868,-13.269089};
-        public static final double[] intakePosDownRightBefore = {-3.952377,50.642868,-10};
+        public static final double[] stageFour = {-31.38,0,-11.309};
+        public static final double[] intakePosDown = {-7.07,0,-10.833};
+        public static final double[] intakePosUp = {};
     
+    }
+    public static final class ArmExtendoK{
+        public static double arms = 0.03;
+        public static double extendos = 0.06;
     }
     public static final class SwervePIDConstants{
         public static final int kSlotIdx = 0;
