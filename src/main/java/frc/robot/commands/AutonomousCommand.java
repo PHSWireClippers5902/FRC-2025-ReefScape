@@ -43,6 +43,33 @@ public class AutonomousCommand extends Command{
         //auto sequence enable, stub
         // System.out.println("Hi bro");
 
+
+
+        if (timer.get() < 2){
+            targets[0]+=calculateDifference(elevator.getArmPosition(), -8, 0.01);
+
+        }
+        else if (timer.get() < 5){
+            if (llvalues.getTv() > 0){
+                double[] targetedValues = getLimelightAlignmentSpeeds(0, 20);
+                swerveSystem.drive(targetedValues[1],0,targetedValues[0],false,0.1,new Translation2d(0,0));
+            }
+            else {
+                
+                swerveSystem.drive(0,0,0,false,0.1,new Translation2d(0,0));
+            }
+        }
+        else if (timer.get() < 6){
+            
+            swerveSystem.drive(0,0,0,false,0.1,new Translation2d(0,0));
+            elevator.moveIntake_ONLY_IN_EMERGENCIES(-0.5);
+        }
+        else if (timer.get() < 7){
+            elevator.moveIntake_ONLY_IN_EMERGENCIES(0);
+        }
+
+
+
         //mapping center
 
         //if time less than 4, go to about where LL is. 
