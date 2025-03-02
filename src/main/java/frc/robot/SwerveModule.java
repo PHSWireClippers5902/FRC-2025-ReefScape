@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.concurrent.ThreadPoolExecutor.AbortPolicy;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -102,8 +104,10 @@ public class SwerveModule extends SubsystemBase{
         steeringController.configSelectedFeedbackCoefficient(1/kEncoderResolution,0,0);
         
         //sets the relative sensor to match absolute
-        // int absolutePosition = steeringController.getSensorCollection().getPulseWidthPosition() & 0xFFF; // Mask out to 12-bit value
-        steeringController.setSelectedSensorPosition(0, SwervePIDConstants.kPIDLoopIdx, SwervePIDConstants.kTimeoutMs);
+        int absolutePosition = steeringController.getSensorCollection().getPulseWidthPosition() % 4096; // Mask out to 12-bit value
+        steeringController.setSelectedSensorPosition(absolutePosition - absoluteChange, SwervePIDConstants.kPIDLoopIdx, SwervePIDConstants.kTimeoutMs);
+        // steeringController.setSelectedSensorPosition(0, SwervePIDConstants.kPIDLoopIdx, SwervePIDConstants.kTimeoutMs);
+        System.out.println(powerID + " " + absolutePosition);
         // steeringController.setSelectedSensorPosition(,SwervePIDConstants.kPIDLoopIdx,SwervePIDConstants.kTimeoutMs);
 
 

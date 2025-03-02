@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class RobotContainer {
   // create inputs
   public final XboxController xbox = new XboxController(0);
+  public final XboxController xbox2 = new XboxController(1);
   public final Joystick joystick = new Joystick(1);
   //create Commands
   public final Elevator m_elevator = new Elevator();
@@ -41,7 +42,7 @@ public class RobotContainer {
   public final LimeLightValues m_values = new LimeLightValues();
   // public final SystemIdentificationSubsystem sysidSubsystem = new SystemIdentificationSubsystem(xbox);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
-  public final ElevatorCommand m_elevatorCommand = new ElevatorCommand(m_elevator, xbox, joystick);
+  public final ElevatorCommand m_elevatorCommand = new ElevatorCommand(m_elevator, xbox, xbox2);
   public final SwerveCommand swerveCommand = new SwerveCommand(xbox, m_swerve, m_values);
   // public final LiftCommand liftCommand = new LiftCommand(xbox, m_lift);
   //Default Constructor
@@ -60,6 +61,7 @@ public class RobotContainer {
   public XboxController getXbox() {
     return xbox;
   }
+
   public Joystick getJoystick() {
     return joystick;
   }

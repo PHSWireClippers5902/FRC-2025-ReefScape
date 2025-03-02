@@ -16,6 +16,7 @@ public class ElevatorCommand extends Command{
     public Elevator elevator;
     public Joystick joystick;
     public XboxController xbox;
+    public XboxController xbox2;
     public boolean proccedUpDown = false;
     public boolean goingUp = false;
     public double[] targets = {0,0,0};
@@ -35,15 +36,16 @@ public class ElevatorCommand extends Command{
     public double extendoLeftLimit = ArmHookConstants.extendo.MotorLIMITS.leftLimit;
 
 
-    public ElevatorCommand(Elevator elevatorSystem, XboxController m_xbox, Joystick m_joystick){
+    public ElevatorCommand(Elevator elevatorSystem, XboxController m_xbox, XboxController xbox2){
         xbox = m_xbox;
         elevator = elevatorSystem;
-        joystick = m_joystick;
+        // joystick = m_joystick;
+        this.xbox2 = xbox2;
         addRequirements(elevator);
 
     }
     public boolean inLimit(int arlock, double check, MotorInitialize initEvent){
-        return (targets[arlock] + check > initEvent.MotorLIMITS.leftLimit && targets[0] + check < initEvent.MotorLIMITS.rightLimit);
+        return (targets[arlock] + check > initEvent.MotorLIMITS.leftLimit && targets[arlock] + check < initEvent.MotorLIMITS.rightLimit);
     }
     public double k = 30;
     public void whatLimitShouldBeExtendo(){
@@ -67,53 +69,65 @@ public class ElevatorCommand extends Command{
         SmartDashboard.putNumber("Wrist", elevator.getWristPosition());
         SmartDashboard.putNumber("Intake", elevator.getIntakePosition());
         SmartDashboard.putNumber("Extendo", elevator.getExtendoPosition());
-        
-        //top left blue
-        if (joystick.getRawButton(1)){
-            if (downTriggered1){
-                // downAState();
-                downTriggered1 = false;
-            }
+        if (xbox2.getRightBumperButton()){
             intake = 0.5;
             intakeChanged = true;
-        }else {downTriggered1 = true;}
-        //joystick mid left green
-        if (joystick.getRawButton(4)){
-            if (downTriggered4){
-                // downAState();
-                downTriggered4 = false;
-            }
+        }
+        if (xbox2.getLeftBumperButton()){
             intake = -0.5;
             intakeChanged = true;
-        }else {downTriggered4 = true;}
-        //joystick bottom left red
-        if (joystick.getRawButton(7)){
-
         }
+        // //top left blue
+        // if (joystick.getRawButton(1)){
+        //     if (downTriggered1){
+        //         // downAState();
+        //         downTriggered1 = false;
+        //     }
+        //     intake = 0.5;
+        //     intakeChanged = true;
+        // }else {downTriggered1 = true;}
+        // //joystick mid left green
+        // if (joystick.getRawButton(4)){
+        //     if (downTriggered4){
+        //         // downAState();
+        //         downTriggered4 = false;
+        //     }
+        //     intake = -0.5;
+        //     intakeChanged = true;
+        // }else {downTriggered4 = true;}
+        //joystick bottom left red
+        // if (joystick.getRawButton(7)){
+
+        // }
         
         //goes down
-
-        if (joystick.getY() > 0.3){
-            if (inLimit(0,armSpeedDown,ArmHookConstants.arm)){
-                // whatLimitShouldBeExtendo();
-                targets[0]+=armSpeedDown;
-            }
-            else {
-                // whatLimitShouldBeExtendo();
-                targets[0] = ArmHookConstants.arm.MotorLIMITS.rightLimit;
+        if (Math.abs(xbox2.getRightY()) > 0.2){
+            if (inLimit(0,xbox2.getRightY() * armSpeedUp, ArmHookConstants.arm)){
+                targets[0]+=xbox2.getRightY() * armSpeedUp;
             }
         }
-        //goes up
-        else if (joystick.getY() < -0.3){
-            // whatLimitShouldBeExtendo();
-            if (inLimit(0,-armSpeedUp,ArmHookConstants.arm)){
-                targets[0]-=armSpeedUp;
-            }
-            else {
-                whatLimitShouldBeExtendo();
-                targets[0] = ArmHookConstants.arm.MotorLIMITS.leftLimit;
-            }
-        }
+        
+        // if (joystick.getY() > 0.3){
+        //     if (inLimit(0,armSpeedDown,ArmHookConstants.arm)){
+        //         // whatLimitShouldBeExtendo();
+        //         targets[0]+=armSpeedDown;
+        //     }
+        //     else {
+        //         // whatLimitShouldBeExtendo();
+        //         targets[0] = ArmHookConstants.arm.MotorLIMITS.rightLimit;
+        //     }
+        // }
+        // //goes up
+        // else if (joystick.getY() < -0.3){
+        //     // whatLimitShouldBeExtendo();
+        //     if (inLimit(0,-armSpeedUp,ArmHookConstants.arm)){
+        //         targets[0]-=armSpeedUp;
+        //     }
+        //     else {
+        //         whatLimitShouldBeExtendo();
+        //         targets[0] = ArmHookConstants.arm.MotorLIMITS.leftLimit;
+        //     }
+        // }
         else if (xbox.getYButton()){
             if (inLimit(0,-armSpeedUp,ArmHookConstants.arm)){
                 targets[0]-=armSpeedUp;
@@ -134,24 +148,40 @@ public class ElevatorCommand extends Command{
             }
         }
         //wrist movement
-        if (joystick.getX() > 0.3){
+        if (xbox2.getRightTriggerAxis() > 0.2){
             if (inLimit(1,wristSpeed,ArmHookConstants.wrist)){
                 targets[1]+=wristSpeed;
             }
             else {
                 targets[1] = ArmHookConstants.wrist.MotorLIMITS.rightLimit;
             }
-            // targets[1]+=wristSpeed;
         }
-        else if (joystick.getX() < -0.3){
+        else if (xbox2.getLeftTriggerAxis() > 0.2){
             if (inLimit(1,-wristSpeed,ArmHookConstants.wrist)){
                 targets[1]-=wristSpeed;
             }
             else {
                 targets[1] = ArmHookConstants.wrist.MotorLIMITS.leftLimit;
             }
-            // targets[1]-=wristSpeed;
         }
+        // if (joystick.getX() > 0.3){
+        //     if (inLimit(1,wristSpeed,ArmHookConstants.wrist)){
+        //         targets[1]+=wristSpeed;
+        //     }
+        //     else {
+        //         targets[1] = ArmHookConstants.wrist.MotorLIMITS.rightLimit;
+        //     }
+        //     // targets[1]+=wristSpeed;
+        // }
+        // else if (joystick.getX() < -0.3){
+        //     if (inLimit(1,-wristSpeed,ArmHookConstants.wrist)){
+        //         targets[1]-=wristSpeed;
+        //     }
+        //     else {
+        //         targets[1] = ArmHookConstants.wrist.MotorLIMITS.leftLimit;
+        //     }
+        //     // targets[1]-=wristSpeed;
+        // }
         else if (xbox.getBButton()){
             if (inLimit(1,wristSpeed,ArmHookConstants.wrist)){
                 targets[1]+=wristSpeed;
@@ -170,23 +200,28 @@ public class ElevatorCommand extends Command{
             // targets[1]-=wristSpeed;
         }
         //extendo out
-        if (joystick.getRawButton(3)){
-            if (inLimit(2,-extendoOut,new MotorInitialize(0, null,new EncoderLimits(extendoLeftLimit,0),true))){
+        if (Math.abs(xbox2.getLeftY()) > 0.2 ){
+            if (inLimit(2,-extendoOut,new MotorInitialize(0, null,new EncoderLimits(extendoLeftLimit,ArmHookConstants.arm.MotorLIMITS.rightLimit),true))){
                 targets[2]-=extendoOut;
             }
-            else {
-                targets[2] = extendoLeftLimit;
-            }
         }
-        //extendo in
-        else if (joystick.getRawButton(6)){
-            if (inLimit(2,extendoIn,ArmHookConstants.extendo)){
-                targets[2]+=extendoIn;
-            }
-            else {
-                targets[2] = ArmHookConstants.extendo.MotorLIMITS.rightLimit;
-            }
-        }
+        // if (joystick.getRawButton(3)){
+        //     if (inLimit(2,-extendoOut,new MotorInitialize(0, null,new EncoderLimits(extendoLeftLimit,0),true))){
+        //         targets[2]-=extendoOut;
+        //     }
+        //     else {
+        //         targets[2] = extendoLeftLimit;
+        //     }
+        // }
+        // //extendo in
+        // else if (joystick.getRawButton(6)){
+        //     if (inLimit(2,extendoIn,ArmHookConstants.extendo)){
+        //         targets[2]+=extendoIn;
+        //     }
+        //     else {
+        //         targets[2] = ArmHookConstants.extendo.MotorLIMITS.rightLimit;
+        //     }
+        // }
         else if (xbox.getPOV() == 0){
             if (inLimit(2,-extendoOut,new MotorInitialize(0, null,new EncoderLimits(extendoLeftLimit,0),true))){
                 targets[2]-=extendoOut;
@@ -211,16 +246,36 @@ public class ElevatorCommand extends Command{
 
         //all presets
         //bottom left
-        if (joystick.getRawButton(7)){
+        if (joystick.getRawButton(8)){
             //goes to the top preset position
             targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageFour[0],ArmExtendoK.arms);
             targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageFour[2],ArmExtendoK.extendos);
-        }else if (joystick.getRawButton(8)){
+        }
+        if (joystick.getRawButton(7)){
             //goes to rest position middle
             targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.intakePosDown[0],ArmExtendoK.arms);
             targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.intakePosDown[2],ArmExtendoK.extendos);
-        }else if (joystick.getRawButton(9)){
-            //
+        }
+        if (joystick.getRawButton(9)){
+            //goes to input pick up mode
+            targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.intakePosUp[0],ArmExtendoK.arms);
+            targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.intakePosUp[2],ArmExtendoK.extendos);
+            
+        }
+        if (joystick.getRawButton(2)){
+            //goes to input pick up mode
+            targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageTwo[0],ArmExtendoK.arms);
+            targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageTwo[2],ArmExtendoK.extendos);
+            // intake = 0.5;
+            // intakeChanged = true;
+            
+        }
+        if (joystick.getRawButton(5)){
+            //goes to input pick up mode
+            targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageThree[0],ArmExtendoK.arms);
+            targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageThree[2],ArmExtendoK.extendos);
+            // intake = 0.5;
+            // intakeChanged = true;
             
         }
         

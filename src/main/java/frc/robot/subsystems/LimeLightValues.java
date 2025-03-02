@@ -129,7 +129,7 @@ public class LimeLightValues extends SubsystemBase{
     //    // SmartDashboard.putNumber("Distance from LimeLight in Inches: ",distanceFromLimelightToGoalInches);
     //     return distanceFromLimelightToGoalInches;
     //     }
-        return distanceFromLimelightToGoalInches;
+        return distanceFromLimelightToGoalInches - 12;
     }
     
 }

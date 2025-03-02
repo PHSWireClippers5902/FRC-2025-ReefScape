@@ -36,9 +36,11 @@ public final class Constants{
         );
         public static final double intakePercentIn = 0;
         public static final double intakePercentOut = 0;
-        public static final double[] stageFour = {-31.38,0,-11.309};
+        public static final double[] stageFour = {-30,0,-9.45};
+        public static final double[] stageThree = {-23.428,0,0};
+        public static final double[] stageTwo = {-17,0,0};
         public static final double[] intakePosDown = {-7.07,0,-10.833};
-        public static final double[] intakePosUp = {};
+        public static final double[] intakePosUp = {-15.7,0,0};
     
     }
     public static final class ArmExtendoK{
@@ -86,10 +88,10 @@ public final class Constants{
 
     // }
     public static final class AbsoluteChange{
-        public static final int FrontLeftChange = 4071;
-        public static final int FrontRightChange = 4066;
-        public static final int BackLeftChange = 4077;
-        public static final int BackRightChange = 64;
+        public static final int FrontLeftChange = 742;
+        public static final int FrontRightChange = 314;
+        public static final int BackLeftChange = 839;
+        public static final int BackRightChange = 3675;
     }
     public static final class SwerveCANConstants{
         public static final int kFrontLeftDrivingCanId = 25;
@@ -98,7 +100,7 @@ public final class Constants{
         public static final int kRearRightDrivingCanId = 22;
 
         public static final int kFrontLeftTurningCanId = 1;
-        public static final int kRearLeftTurningCanId = 3;
+        public static final int kRearLeftTurningCanId  = 3;
         public static final int kFrontRightTurningCanId = 2;
         public static final int kRearRightTurningCanId = 4;
     }

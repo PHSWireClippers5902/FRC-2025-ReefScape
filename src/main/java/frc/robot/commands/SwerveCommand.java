@@ -82,7 +82,7 @@ public class SwerveCommand extends Command {
         if (myXbox.getLeftStickButton()){
             mySwerve.myGyro.reset();
         }
-        if (myXbox.getLeftTriggerAxis() > 0.2){
+        if (myXbox.getLeftStickButton()){
             if (hasProcced){
                 hasProcced = false;
                 fieldRelative = !fieldRelative;
@@ -92,9 +92,13 @@ public class SwerveCommand extends Command {
         else {
             hasProcced = true;
         }
-        if (myXbox.getRightTriggerAxis() > 0.2){
-            normMax = 0.4;
-            rotMax = 0.2;
+        if (myXbox.getLeftTriggerAxis() > 0.2){
+            normMax = 0.5;
+            rotMax = 0.3;
+        }
+        else if (myXbox.getRightTriggerAxis() > 0.2){
+            normMax = 0.05;
+            rotMax = 0.05;
         }
         else {
             normMax = 0.1;
@@ -120,7 +124,7 @@ public class SwerveCommand extends Command {
         }
         if (myXbox.getLeftStickButton()){
             if (llvalues.getTv() > 0){
-                double[] testSpeeds = getLimelightAlignmentSpeeds(0,30);
+                double[] testSpeeds = getLimelightAlignmentSpeeds(0,20);
                 mySwerve.drive(testSpeeds[1],0,testSpeeds[0],false,0.1,new Translation2d(0,0));
             }
             else {
@@ -150,15 +154,19 @@ public class SwerveCommand extends Command {
         double tx = llvalues.getTx(); //get x angle 
         double ty = llvalues.getInchesFromGoal(); //inches from goal
         
-        double kx = 0.01;
-        double ky = 0.01;
-
+        double kx = 0.04;
+        double ky = 0.04;
+        //xspeed: turn, 
+        //yspeed: forward
         double xspeed = kx * (tx-targetXAngle);
         double yspeed = ky * (ty - inchesFromGoal);
 
-        xspeed = Math.abs(xspeed) > 0.5 ? -0.5 : -xspeed;
-        yspeed = Math.abs(yspeed) > 0.5 ? 0.5 : yspeed;
+        xspeed = Math.abs(xspeed) > 0.2 ?  xspeed / Math.abs(xspeed) * 0.2 : xspeed;
+        yspeed = Math.abs(yspeed) > 0.2 ? yspeed / Math.abs(yspeed) * 0.2 : yspeed;
+        xspeed = -xspeed;
 
+        // yspeed = 0;
+        //turn, forward
         return new double[]{xspeed,yspeed};
     }
 
