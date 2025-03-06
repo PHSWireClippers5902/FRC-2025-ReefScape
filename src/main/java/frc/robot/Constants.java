@@ -5,7 +5,7 @@ public final class Constants{
         //CHANGE BEFORE USAGE
         public static final MotorInitialize arm = new MotorInitialize(
             10,
-            new Gains(0.018,0,0.8,0,0,0.5),
+            new Gains(0.024,0,0.8,0,0,0.5),
             new EncoderLimits(-42,1),
             false,
             new Gains(0.008,0,0.8,0,0,1)

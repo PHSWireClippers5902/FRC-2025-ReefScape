@@ -69,12 +69,12 @@ public class ElevatorCommand extends Command{
         SmartDashboard.putNumber("Wrist", elevator.getWristPosition());
         SmartDashboard.putNumber("Intake", elevator.getIntakePosition());
         SmartDashboard.putNumber("Extendo", elevator.getExtendoPosition());
-        if (xbox2.getRightBumperButton()){
-            intake = 0.5;
+        if (xbox2.getRightTriggerAxis() > 0.2){
+            intake = -0.5;
             intakeChanged = true;
         }
-        if (xbox2.getLeftBumperButton()){
-            intake = -0.5;
+        if (xbox2.getLeftTriggerAxis() > 0.2){
+            intake = 0.5;
             intakeChanged = true;
         }
         // //top left blue
@@ -148,7 +148,7 @@ public class ElevatorCommand extends Command{
             }
         }
         //wrist movement
-        if (xbox2.getRightTriggerAxis() > 0.2){
+        if (xbox2.getRightBumperButton()){
             if (inLimit(1,wristSpeed,ArmHookConstants.wrist)){
                 targets[1]+=wristSpeed;
             }
@@ -156,7 +156,7 @@ public class ElevatorCommand extends Command{
                 targets[1] = ArmHookConstants.wrist.MotorLIMITS.rightLimit;
             }
         }
-        else if (xbox2.getLeftTriggerAxis() > 0.2){
+        else if (xbox2.getLeftBumperButton()){
             if (inLimit(1,-wristSpeed,ArmHookConstants.wrist)){
                 targets[1]-=wristSpeed;
             }
@@ -201,8 +201,8 @@ public class ElevatorCommand extends Command{
         }
         //extendo out
         if (Math.abs(xbox2.getLeftY()) > 0.2 ){
-            if (inLimit(2,-extendoOut,new MotorInitialize(0, null,new EncoderLimits(extendoLeftLimit,ArmHookConstants.arm.MotorLIMITS.rightLimit),true))){
-                targets[2]-=extendoOut;
+            if (inLimit(2,extendoOut*xbox2.getLeftY(),new MotorInitialize(0, null,new EncoderLimits(extendoLeftLimit,ArmHookConstants.arm.MotorLIMITS.rightLimit),true))){
+                targets[2]+=extendoOut * xbox2.getLeftY();
             }
         }
         // if (joystick.getRawButton(3)){
@@ -246,23 +246,55 @@ public class ElevatorCommand extends Command{
 
         //all presets
         //bottom left
-        if (joystick.getRawButton(8)){
+        // if (joystick.getRawButton(8)){
+        //     //goes to the top preset position
+        //     targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageFour[0],ArmExtendoK.arms);
+        //     targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageFour[2],ArmExtendoK.extendos);
+        // }
+        // if (joystick.getRawButton(7)){
+        //     //goes to rest position middle
+        //     targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.intakePosDown[0],ArmExtendoK.arms);
+        //     targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.intakePosDown[2],ArmExtendoK.extendos);
+        // }
+        // if (joystick.getRawButton(9)){
+        //     //goes to input pick up mode
+        //     targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.intakePosUp[0],ArmExtendoK.arms);
+        //     targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.intakePosUp[2],ArmExtendoK.extendos);
+            
+        // }
+        // if (joystick.getRawButton(2)){
+        //     //goes to input pick up mode
+        //     targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageTwo[0],ArmExtendoK.arms);
+        //     targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageTwo[2],ArmExtendoK.extendos);
+        //     // intake = 0.5;
+        //     // intakeChanged = true;
+            
+        // }
+        // if (joystick.getRawButton(5)){
+        //     //goes to input pick up mode
+        //     targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageThree[0],ArmExtendoK.arms);
+        //     targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageThree[2],ArmExtendoK.extendos);
+        //     // intake = 0.5;
+        //     // intakeChanged = true;
+            
+        // }
+        if (xbox2.getYButton()){
             //goes to the top preset position
             targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageFour[0],ArmExtendoK.arms);
             targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageFour[2],ArmExtendoK.extendos);
         }
-        if (joystick.getRawButton(7)){
+        if (xbox2.getPOV() == 180){
             //goes to rest position middle
             targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.intakePosDown[0],ArmExtendoK.arms);
             targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.intakePosDown[2],ArmExtendoK.extendos);
         }
-        if (joystick.getRawButton(9)){
+        if (xbox2.getPOV() == 0){
             //goes to input pick up mode
             targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.intakePosUp[0],ArmExtendoK.arms);
             targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.intakePosUp[2],ArmExtendoK.extendos);
             
         }
-        if (joystick.getRawButton(2)){
+        if (xbox2.getAButton()){
             //goes to input pick up mode
             targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageTwo[0],ArmExtendoK.arms);
             targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageTwo[2],ArmExtendoK.extendos);
@@ -270,7 +302,7 @@ public class ElevatorCommand extends Command{
             // intakeChanged = true;
             
         }
-        if (joystick.getRawButton(5)){
+        if (xbox2.getBButton()){
             //goes to input pick up mode
             targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageThree[0],ArmExtendoK.arms);
             targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageThree[2],ArmExtendoK.extendos);
@@ -278,7 +310,6 @@ public class ElevatorCommand extends Command{
             // intakeChanged = true;
             
         }
-        
        
 
 
@@ -316,9 +347,6 @@ public class ElevatorCommand extends Command{
             intake = -0.5;
             // elevator.intake(false);
             intakeChanged = true;
-        }
-        else {
-            // elevator.moveIntake_ONLY_IN_EMERGENCIES(0);
         }
 
         
