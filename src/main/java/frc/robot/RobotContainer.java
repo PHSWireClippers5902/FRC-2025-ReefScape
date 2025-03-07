@@ -40,19 +40,22 @@ public class RobotContainer {
   public final Swerve m_swerve = new Swerve();
   public final Lift m_lift = new Lift();
   public final LimeLightValues m_values = new LimeLightValues();
-  // public final SystemIdentificationSubsystem sysidSubsystem = new SystemIdentificationSubsystem(xbox);
+  public final SystemIdentificationSubsystem sysidSubsystem = new SystemIdentificationSubsystem(xbox);
+  public final LedSubsystem m_LedSubsystem = new LedSubsystem();
+  public final LedCommand m_LedCommand = new LedCommand(m_LedSubsystem);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   public final ElevatorCommand m_elevatorCommand = new ElevatorCommand(m_elevator, xbox, xbox2);
   public final SwerveCommand swerveCommand = new SwerveCommand(xbox, m_swerve, m_values);
-  public final LiftCommand liftCommand = new LiftCommand(xbox,xbox2, m_lift);
+  public final LiftCommand m_LiftCommand = new LiftCommand(xbox, xbox2, m_lift);
   //Default Constructor
   public RobotContainer(){
-    m_elevator.setDefaultCommand(m_elevatorCommand);
-    m_swerve.setDefaultCommand(swerveCommand);
-    m_lift.setDefaultCommand(liftCommand);
+     m_elevator.setDefaultCommand(m_elevatorCommand);
+     m_swerve.setDefaultCommand(swerveCommand);
+     m_lift.setDefaultCommand(m_LiftCommand);
+     m_LedSubsystem.setDefaultCommand(m_LedCommand);
     m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand(m_swerve, m_elevator, m_values));    
   }
-
+  
   private void configureButtonBindings(){ 
     //does nothing 
   }
