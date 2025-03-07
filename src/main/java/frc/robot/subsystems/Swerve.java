@@ -192,6 +192,14 @@ public class Swerve extends SubsystemBase{
         return new ChassisSpeeds();
     }
 
+    public Pose2d getPose(){
+
+    }
+    public Pose2d resetPose(){
+
+    }
+
+
     public void driveRobotRelative(ChassisSpeeds speeds){
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(speeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(
