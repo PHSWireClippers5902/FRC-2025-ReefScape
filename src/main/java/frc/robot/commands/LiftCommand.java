@@ -15,13 +15,14 @@ public class LiftCommand extends Command{
         addRequirements(lift);
     }
     //execute order 66
+    //incresed motor PID to .3 for more power.
     @Override
     public void execute() {
         if (xbox2.getPOV() == 90){
-            lift.moveLift(-0.2);
+            lift.moveLift(-0.3);
         }
         else if (xbox2.getPOV() == 270){
-            lift.moveLift(0.2);
+            lift.moveLift(0.3);
         }
         else {
             lift.moveLift(0);
