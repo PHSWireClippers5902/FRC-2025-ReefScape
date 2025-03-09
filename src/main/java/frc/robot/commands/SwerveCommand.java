@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.revrobotics.spark.SparkBase.ControlType;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.networktables.NetworkTableInstance;
 // import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -122,10 +123,13 @@ public class SwerveCommand extends Command {
         else {
             customCenter = constantCenter;
         }
+
+
+
         if (myXbox.getLeftStickButton()){
             if (llvalues.getTv() > 0){
-                double[] testSpeeds = getLimelightAlignmentSpeeds(0,20);
-                mySwerve.drive(testSpeeds[1],0,testSpeeds[0],false,0.1,new Translation2d(0,0));
+                double[] testSpeeds = getLimelightAlignmentSpeeds(0,20,0);
+                mySwerve.drive(testSpeeds[1],testSpeeds[0],testSpeeds[2],false,0.1,new Translation2d(0,0));
             }
             else {
                 mySwerve.drive(xSpeed,ySpeed,rot,fieldRelative,0.02, customCenter);
@@ -136,8 +140,14 @@ public class SwerveCommand extends Command {
             mySwerve.drive(xSpeed,ySpeed,rot,fieldRelative,0.02, customCenter);
         }
 
-        SmartDashboard.putNumber("Technical speed X before anything is done.",getLimelightAlignmentSpeeds(0,20)[0]);
-        SmartDashboard.putNumber("Technical speed Y before anything is done.",getLimelightAlignmentSpeeds(0,20)[1]);
+
+
+
+        SmartDashboard.putNumberArray("Limelight array tid?: ", NetworkTableInstance.getDefault().getTable("limelight").getEntry("<tid>").getDoubleArray(new double[6]));
+
+        SmartDashboard.putNumber("Technical speed X before anything is done.",getLimelightAlignmentSpeeds(0,20,0)[0]);
+        SmartDashboard.putNumber("Technical speed Y before anything is done.",getLimelightAlignmentSpeeds(0,20,0)[1]);
+        SmartDashboard.putNumber("Technical speed Rot before anything is done.",getLimelightAlignmentSpeeds(0,20,0)[2]);
         SmartDashboard.putNumber("Distance from goal", llvalues.getInchesFromGoal());
         // mySwerve.m_frontLeft.steeringController.set(ControlMode.Position,135 * 4096 / 360);
         // mySwerve.m_frontRight.steeringController.set(ControlMode.Position,45 * 4096 / 360);
@@ -150,24 +160,32 @@ public class SwerveCommand extends Command {
         // mySwerve.m_backRight.powerController.set(0.1);
 
     }
-    private double[] getLimelightAlignmentSpeeds(double targetXAngle, double inchesFromGoal){
+    private double[] getLimelightAlignmentSpeeds(double targetXAngle, double inchesFromGoal, double targetRotation){
         double tx = llvalues.getTx(); //get x angle 
         double ty = llvalues.getInchesFromGoal(); //inches from goal
-        
+        double gyroCurrentPosition = mySwerve.myGyro.getAng().getDegrees();
+
+
+
         double kx = 0.04;
         double ky = 0.04;
+        double kr = 0.04;
         //xspeed: turn, 
         //yspeed: forward
         double xspeed = kx * (tx-targetXAngle);
         double yspeed = ky * (ty - inchesFromGoal);
+        double rotationSpeed = kr * (targetRotation - gyroCurrentPosition);
 
         xspeed = Math.abs(xspeed) > 0.2 ?  xspeed / Math.abs(xspeed) * 0.2 : xspeed;
         yspeed = Math.abs(yspeed) > 0.2 ? yspeed / Math.abs(yspeed) * 0.2 : yspeed;
+        rotationSpeed = Math.abs(rotationSpeed) > 0.2 ? rotationSpeed / Math.abs(rotationSpeed) * 0.2 : rotationSpeed; 
+
+        //reverses left, might need to be done aswell
         xspeed = -xspeed;
 
         // yspeed = 0;
         //turn, forward
-        return new double[]{xspeed,yspeed};
+        return new double[]{xspeed,yspeed,rotationSpeed};
     }
 
     private double applyDeadband(double value) {

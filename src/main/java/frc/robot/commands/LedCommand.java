@@ -17,18 +17,18 @@ public class LedCommand extends Command{
    }
 
    @Override public void execute(){
-         ledSystem.setParty();
-         Optional<Alliance> ally = DriverStation.getAlliance();
-if (ally.isPresent()) {
-    if (ally.get().equals(Alliance.Red) ) {
-       ledSystem.setRed();
-    }
-    else if (ally.get().equals(Alliance.Blue)) {
-       ledSystem.setBlue();
-    }
-}
+         // ledSystem.setParty();
+      Optional<Alliance> ally = DriverStation.getAlliance();
+      if (ally.isPresent()) {
+         if (ally.get().equals(Alliance.Red) ) {
+            ledSystem.setRed();
+         }
+         else if (ally.get().equals(Alliance.Blue)) {
+            ledSystem.setBlue();
+         }
+      }
       else {
-      ledSystem.setParty();
-}
-}
+         ledSystem.setParty();
+      }
+   }
 }

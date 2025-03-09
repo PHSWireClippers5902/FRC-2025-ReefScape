@@ -192,13 +192,12 @@ public class Swerve extends SubsystemBase{
         return new ChassisSpeeds();
     }
 
+    public void resetPose(){
+
+    }
     public Pose2d getPose(){
-
+        return new Pose2d(new Translation2d(), myGyro.getRotation());
     }
-    public Pose2d resetPose(){
-
-    }
-
 
     public void driveRobotRelative(ChassisSpeeds speeds){
         var swerveModuleStates = m_kinematics.toSwerveModuleStates(speeds);
@@ -260,10 +259,7 @@ public class Swerve extends SubsystemBase{
         return (sum / 4);
     }
     
-    public Pose2d getPose(){
-        return new Pose2d(new Translation2d(), myGyro.getRotation());
-
-    }
+    
     public void resetPose(Pose2d pose){
         
     }
