@@ -19,11 +19,13 @@ public class LedSubsystem extends SubsystemBase {
         }
         public void setRed(){
             strip1.set(0.61);
-            strip2.set(-0.89);
+            strip2.set(0.61);
+            // strip2.set(-0.89);
         }
         public void setBlue(){
             strip1.set(0.87);
-            strip2.set(-0.89);
+            // strip2.set(-0.89);
+            strip2.set(0.87);
         }
         public void setParty(){
             strip1.set(-0.87);

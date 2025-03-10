@@ -80,9 +80,9 @@ public class SwerveCommand extends Command {
         // if (myXbox.getAButton()){
         //     mySwerve.myGyro.m_gyro.reset();
         // }
-        if (myXbox.getLeftStickButton()){
-            mySwerve.myGyro.reset();
-        }
+        // if (myXbox.getLeftStickButton()){
+        //     mySwerve.myGyro.reset();
+        // }
         if (myXbox.getLeftStickButton()){
             if (hasProcced){
                 hasProcced = false;
@@ -167,7 +167,7 @@ public class SwerveCommand extends Command {
 
 
 
-        double kx = 0.04;
+        double kx = 0.004;
         double ky = 0.04;
         double kr = 0.04;
         //xspeed: turn, 

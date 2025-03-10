@@ -27,7 +27,7 @@ public class LimeLightValues extends SubsystemBase{
     // how many degrees back is your limelight rotated from perfectly vertical?
     double limelightMountAngleDegrees = 0;
     // distance from the center of the Limelight lens to the floor
-    double limelightLensHeightInches = 17.5;
+    double limelightLensHeightInches = 9.5;
     // distance from the target to the floor
     double goalHeightInches = 12.25;
     double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
@@ -129,7 +129,7 @@ public class LimeLightValues extends SubsystemBase{
     //    // SmartDashboard.putNumber("Distance from LimeLight in Inches: ",distanceFromLimelightToGoalInches);
     //     return distanceFromLimelightToGoalInches;
     //     }
-        return distanceFromLimelightToGoalInches - 12;
+        return distanceFromLimelightToGoalInches;
     }
     
 }

@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Elevator extends SubsystemBase{
 
-    public IdleMode coastOrClear = IdleMode.kBrake;
+    public IdleMode coastOrClear = IdleMode.kCoast;
 
     //all wrist initialization
     public SparkMax wrist;
@@ -125,7 +125,7 @@ public class Elevator extends SubsystemBase{
         //create the arm configuration
         intakeConfiguration = new SparkMaxConfig();
         //ONCE YOU FINISH TESTING, SET IDLE MODE TO BRAKE (UNCOMMENT THE LINE BELOW)
-        intakeConfiguration.idleMode(IdleMode.kCoast);
+        intakeConfiguration.idleMode(IdleMode.kBrake);
         
 
         intakeConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);

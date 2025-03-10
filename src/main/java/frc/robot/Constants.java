@@ -25,7 +25,7 @@ public final class Constants{
         public static final MotorInitialize extendo = new MotorInitialize(
             11,
             new Gains(0.15,0,0.3,0,0,1),
-            new EncoderLimits(-17.2,0.01),
+            new EncoderLimits(-17.2,0),
             false
         );
         public static final MotorInitialize lift = new MotorInitialize(
@@ -34,6 +34,7 @@ public final class Constants{
             new EncoderLimits(0,0),
             true
         );
+        public static final double checkBeforeTurning = 1.5;
         public static final double intakePercentIn = 0;
         public static final double intakePercentOut = 0;
         public static final double[] stageFour = {-30,0,-9.45};
@@ -88,10 +89,16 @@ public final class Constants{
 
     // }
     public static final class AbsoluteChange{
+        // 25 742
+        // 23 328
+        // 24 924
+        // 22 3677
+
+
         public static final int FrontLeftChange = 742;
-        public static final int FrontRightChange = 314;
-        public static final int BackLeftChange = 839;
-        public static final int BackRightChange = 3675;
+        public static final int FrontRightChange = 328;
+        public static final int BackLeftChange = 924;
+        public static final int BackRightChange = 3677;
     }
     public static final class SwerveCANConstants{
         public static final int kFrontLeftDrivingCanId = 25;
