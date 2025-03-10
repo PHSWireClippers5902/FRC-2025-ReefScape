@@ -40,7 +40,7 @@ public class RobotContainer {
   public final Swerve m_swerve = new Swerve();
   public final Lift m_lift = new Lift();
   public final LimeLightValues m_values = new LimeLightValues();
-  public final SystemIdentificationSubsystem sysidSubsystem = new SystemIdentificationSubsystem(xbox);
+  // public final SystemIdentificationSubsystem sysidSubsystem = new SystemIdentificationSubsystem(xbox);
   public final LedSubsystem m_LedSubsystem = new LedSubsystem();
   public final LedCommand m_LedCommand = new LedCommand(m_LedSubsystem);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
