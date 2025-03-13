@@ -25,7 +25,7 @@ public final class Constants{
         public static final MotorInitialize extendo = new MotorInitialize(
             11,
             new Gains(0.15,0,0.3,0,0,1),
-            new EncoderLimits(-17.2,0),
+            new EncoderLimits(-17.2*4,0),
             false
         );
         public static final MotorInitialize lift = new MotorInitialize(
@@ -34,6 +34,9 @@ public final class Constants{
             new EncoderLimits(0,0),
             true
         );
+        
+
+
         public static final double checkBeforeTurning = 1.5;
         public static final double intakePercentIn = 0;
         public static final double intakePercentOut = 0;
@@ -43,6 +46,22 @@ public final class Constants{
         public static final double[] intakePosDown = {-7.07,0,-10.833};
         public static final double[] intakePosUp = {-15.7,0,0};
     
+    }
+    public static final class AprilConstants{
+        public static double[] redClose = {10,0};
+        public static double[] redCloseRight = {9,1};
+        public static double[] redCloseLeft = {};
+        public static double[] redFar = {};
+        public static double[] redFarRight = {};
+        public static double[] redFarLeft = {};
+
+        
+        public static double[] blueClose = {};
+        public static double[] blueCloseRight = {};
+        public static double[] blueCloseLeft = {};
+        public static double[] blueFar = {};
+        public static double[] blueFarRight = {};
+        public static double[] blueFarLeft = {};
     }
     public static final class ArmExtendoK{
         public static double arms = 0.03;

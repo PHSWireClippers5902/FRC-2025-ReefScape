@@ -83,7 +83,7 @@ public class SwerveCommand extends Command {
         // if (myXbox.getLeftStickButton()){
         //     mySwerve.myGyro.reset();
         // }
-        if (myXbox.getLeftStickButton()){
+        if (myXbox.getRawButton(7)){
             if (hasProcced){
                 hasProcced = false;
                 fieldRelative = !fieldRelative;
@@ -105,6 +105,7 @@ public class SwerveCommand extends Command {
             normMax = 0.1;
             rotMax = 0.2;
         }
+
         
         
 
@@ -139,16 +140,19 @@ public class SwerveCommand extends Command {
             
             mySwerve.drive(xSpeed,ySpeed,rot,fieldRelative,0.02, customCenter);
         }
+        if (myXbox.getRightStickButton()){
+            mySwerve.myGyro.reset();
+        }
 
 
 
-
-        SmartDashboard.putNumberArray("Limelight array tid?: ", NetworkTableInstance.getDefault().getTable("limelight").getEntry("<tid>").getDoubleArray(new double[6]));
-
+        SmartDashboard.putNumberArray("Limelight array tid?: ", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDoubleArray(new double[6]));
+        SmartDashboard.putNumber("Limelight array tid position: ", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDoubleArray(new double[6])[0]);
         SmartDashboard.putNumber("Technical speed X before anything is done.",getLimelightAlignmentSpeeds(0,20,0)[0]);
         SmartDashboard.putNumber("Technical speed Y before anything is done.",getLimelightAlignmentSpeeds(0,20,0)[1]);
         SmartDashboard.putNumber("Technical speed Rot before anything is done.",getLimelightAlignmentSpeeds(0,20,0)[2]);
         SmartDashboard.putNumber("Distance from goal", llvalues.getInchesFromGoal());
+        SmartDashboard.putNumber("Fidu: ", llvalues.getFeducialID());
         // mySwerve.m_frontLeft.steeringController.set(ControlMode.Position,135 * 4096 / 360);
         // mySwerve.m_frontRight.steeringController.set(ControlMode.Position,45 * 4096 / 360);
         // mySwerve.m_backLeft.steeringController.set(ControlMode.Position,-135 * 4096 / 360);

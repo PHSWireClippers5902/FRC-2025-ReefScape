@@ -47,7 +47,7 @@ public class ElevatorCommand extends Command{
     public boolean inLimit(int arlock, double check, MotorInitialize initEvent){
         return (targets[arlock] + check > initEvent.MotorLIMITS.leftLimit && targets[arlock] + check < initEvent.MotorLIMITS.rightLimit);
     }
-    public double k = 30;
+    public double k = 30*4;
     public void whatLimitShouldBeExtendo(){
         
         if (elevator.getArmPosition() > -8.5){

@@ -10,10 +10,12 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.LimelightHelpers;
 
 
 public class LimeLightValues extends SubsystemBase{
     //!!IMPORTANT!! ONLY WORKS ON ROBOTS WITH A LIMELIGHT. IF THEY DON't HAVE A LIMELIGHT, then this is most likely commented out so u never have to check it out. 
+    LimelightHelpers helpers = new LimelightHelpers();
 
     //networktable for getting data
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -27,17 +29,18 @@ public class LimeLightValues extends SubsystemBase{
     // how many degrees back is your limelight rotated from perfectly vertical?
     double limelightMountAngleDegrees = 0;
     // distance from the center of the Limelight lens to the floor
-    double limelightLensHeightInches = 9.5;
+    double limelightLensHeightInches = 19.5;
     // distance from the target to the floor
     double goalHeightInches = 12.25;
     double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
     
     double angleToGoalRadians = (angleToGoalDegrees * Math.PI) / 180.0;
     //calculate distance
-    double distanceFromLimelightToGoalInches = (goalHeightInches-limelightLensHeightInches)/Math.tan(angleToGoalRadians) - 12;
+    double distanceFromLimelightToGoalInches = (goalHeightInches-limelightLensHeightInches)/Math.tan(angleToGoalRadians);
 
     //NetworkTableInstance.getDefault().getTable("limelight").getEntry("<variablename>").getDoubleArray(new double[6]);
 
+    
 
     public LimeLightValues(){
         //grabs instances. 
@@ -45,7 +48,9 @@ public class LimeLightValues extends SubsystemBase{
         
     
     }
-
+    public double getFeducialID(){
+        return helpers.getFiducialID("limelight");
+    }
     public void turnOff(){
         
     }
@@ -113,7 +118,7 @@ public class LimeLightValues extends SubsystemBase{
         //SmartDashboard.putNumber("")
 
         //calculate distance
-        distanceFromLimelightToGoalInches = Math.abs((goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians));
+        distanceFromLimelightToGoalInches = Math.abs((limelightLensHeightInches - goalHeightInches) / Math.tan(angleToGoalRadians));
         // SmartDashboard.putNumber("Tan(Angle)", Math.tan(angleToGoalRadians));
         // SmartDashboard.putNumber("angletoGoalRadian", angleToGoalRadians);
         
