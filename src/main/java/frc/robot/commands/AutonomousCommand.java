@@ -66,7 +66,7 @@ public class AutonomousCommand extends Command{
         
         }
         else if (timer.get() < 6.6){
-            swerveSystem.drive(0.04,0,0,false,0.02, new Translation2d(0,0));
+            swerveSystem.drive(-0.04,0,0,false,0.02, new Translation2d(0,0));
         }
         else {
             swerveSystem.drive(0,0,0,false,0.02,new Translation2d(0,0));
