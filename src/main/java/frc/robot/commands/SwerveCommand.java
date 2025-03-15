@@ -129,7 +129,7 @@ public class SwerveCommand extends Command {
 
         if (myXbox.getLeftStickButton()){
             if (llvalues.getTv() > 0){
-                double[] testSpeeds = getLimelightAlignmentSpeeds(0,20,0);
+                double[] testSpeeds = getLimelightAlignmentSpeeds(0,50,0);
                 mySwerve.drive(testSpeeds[1],testSpeeds[0],testSpeeds[2],false,0.1,new Translation2d(0,0));
             }
             else {
@@ -148,9 +148,9 @@ public class SwerveCommand extends Command {
 
         SmartDashboard.putNumberArray("Limelight array tid?: ", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDoubleArray(new double[6]));
         SmartDashboard.putNumber("Limelight array tid position: ", NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDoubleArray(new double[6])[0]);
-        SmartDashboard.putNumber("Technical speed X before anything is done.",getLimelightAlignmentSpeeds(0,20,0)[0]);
-        SmartDashboard.putNumber("Technical speed Y before anything is done.",getLimelightAlignmentSpeeds(0,20,0)[1]);
-        SmartDashboard.putNumber("Technical speed Rot before anything is done.",getLimelightAlignmentSpeeds(0,20,0)[2]);
+        SmartDashboard.putNumber("Technical speed X before anything is done.",getLimelightAlignmentSpeeds(0,50,0)[0]);
+        SmartDashboard.putNumber("Technical speed Y before anything is done.",getLimelightAlignmentSpeeds(0,50,0)[1]);
+        SmartDashboard.putNumber("Technical speed Rot before anything is done.",getLimelightAlignmentSpeeds(0,50,0)[2]);
         SmartDashboard.putNumber("Distance from goal", llvalues.getInchesFromGoal());
         SmartDashboard.putNumber("Fidu: ", llvalues.getFeducialID());
         // mySwerve.m_frontLeft.steeringController.set(ControlMode.Position,135 * 4096 / 360);
@@ -171,15 +171,35 @@ public class SwerveCommand extends Command {
 
 
 
-        double kx = 0.004;
+        double kx = 0.01;
         double ky = 0.04;
         double kr = 0.04;
         //xspeed: turn, 
         //yspeed: forward
+        if (Math.abs(ty-inchesFromGoal) < 10){
+            ky = 0.02;
+        }
+        else if (Math.abs(ty-inchesFromGoal) < 1){
+            ky = 0;
+        }
+
+        if (Math.abs(tx-targetXAngle) < 3){
+            kx = 0.003;
+        }
+        else if (Math.abs(tx-targetXAngle) < 1.5){
+            kx = 0;
+        }
+        if (Math.abs(targetRotation-gyroCurrentPosition) < 5){
+            kr = 0.02;
+        }
+        else if (Math.abs(targetRotation-gyroCurrentPosition) < 1){
+            kr = 0;
+        }
+
         double xspeed = kx * (tx-targetXAngle);
         double yspeed = ky * (ty - inchesFromGoal);
         double rotationSpeed = kr * (targetRotation - gyroCurrentPosition);
-
+        
         xspeed = Math.abs(xspeed) > 0.2 ?  xspeed / Math.abs(xspeed) * 0.2 : xspeed;
         yspeed = Math.abs(yspeed) > 0.2 ? yspeed / Math.abs(yspeed) * 0.2 : yspeed;
         rotationSpeed = Math.abs(rotationSpeed) > 0.2 ? rotationSpeed / Math.abs(rotationSpeed) * 0.2 : rotationSpeed; 

@@ -27,7 +27,7 @@ public class LimeLightValues extends SubsystemBase{
     //constants that are used in calculatino. 
     double targetOffsetAngle_Vertical = ty.getDouble(0.0);
     // how many degrees back is your limelight rotated from perfectly vertical?
-    double limelightMountAngleDegrees = 0;
+    double limelightMountAngleDegrees = 3.5;
     // distance from the center of the Limelight lens to the floor
     double limelightLensHeightInches = 19.5;
     // distance from the target to the floor
@@ -107,7 +107,7 @@ public class LimeLightValues extends SubsystemBase{
 
     // distance from the target to the floor
         //goalHeightInches = 18.5; 
-        angleToGoalDegrees = targetOffsetAngle_Vertical + limelightMountAngleDegrees;
+        angleToGoalDegrees = targetOffsetAngle_Vertical - limelightMountAngleDegrees;
         //double diffinheight = Math.abs(goalHeightInches - limelightLensHeightInches);
         //angleToGoalDegrees = targetOffsetAngle_Vertical;
         angleToGoalRadians = (angleToGoalDegrees * Math.PI) / 180.0;

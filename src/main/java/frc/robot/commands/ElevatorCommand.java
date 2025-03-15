@@ -20,10 +20,10 @@ public class ElevatorCommand extends Command{
     public boolean proccedUpDown = false;
     public boolean goingUp = false;
     public double[] targets = {0,0,0};
-    public double armSpeedUp = 0.3;
+    public double armSpeedUp = 0.45;
     public double armSpeedDown = 0.2;
-    public double extendoOut = 0.2;
-    public double extendoIn = 0.2;
+    public double extendoOut = 0.5;
+    public double extendoIn = 0.5;
     public boolean downTriggered1 = true;
     public boolean downTriggered4 = true;
     public boolean intakeChanged = false;
@@ -50,7 +50,7 @@ public class ElevatorCommand extends Command{
     public double k = 30*4;
     public void whatLimitShouldBeExtendo(){
         
-        if (elevator.getArmPosition() > -8.5){
+        if (elevator.getArmPosition() > -8){
             extendoLeftLimit = ArmHookConstants.extendo.MotorLIMITS.leftLimit;
         } else {
         extendoLeftLimit =  - k * Math.abs( Math.cos(Units.degreesToRadians(90-55.54+55.54*-elevator.getArmPosition()/18.547564)))* Math.abs( Math.cos(Units.degreesToRadians(90-55.54+55.54*-elevator.getArmPosition()/18.547564)));
@@ -148,7 +148,7 @@ public class ElevatorCommand extends Command{
             }
         }
         //wrist movement
-        if (xbox2.getRightBumperButton()){
+        if (xbox2.getRightBumperButton() && elevator.getExtendoPosition() < ArmHookConstants.extendoBeforeWrist){
             if (inLimit(1,wristSpeed,ArmHookConstants.wrist)){
                 targets[1]+=wristSpeed;
             }
@@ -156,7 +156,7 @@ public class ElevatorCommand extends Command{
                 targets[1] = ArmHookConstants.wrist.MotorLIMITS.rightLimit;
             }
         }
-        else if (xbox2.getLeftBumperButton()){
+        else if (xbox2.getLeftBumperButton() && elevator.getExtendoPosition() < ArmHookConstants.extendoBeforeWrist){
             if (inLimit(1,-wristSpeed,ArmHookConstants.wrist)){
                 targets[1]-=wristSpeed;
             }
@@ -182,7 +182,7 @@ public class ElevatorCommand extends Command{
         //     }
         //     // targets[1]-=wristSpeed;
         // }
-        else if (xbox.getBButton()){
+        else if (xbox.getBButton() && elevator.getExtendoPosition() < ArmHookConstants.extendoBeforeWrist){
             if (inLimit(1,wristSpeed,ArmHookConstants.wrist)){
                 targets[1]+=wristSpeed;
             }
@@ -190,7 +190,7 @@ public class ElevatorCommand extends Command{
                 targets[1] = ArmHookConstants.wrist.MotorLIMITS.rightLimit;
             }
             // targets[1]+=wristSpeed;
-        }else if (xbox.getXButton()){
+        }else if (xbox.getXButton() && elevator.getExtendoPosition() < ArmHookConstants.extendoBeforeWrist){
             if (inLimit(1,-wristSpeed,ArmHookConstants.wrist)){
                 targets[1]-=wristSpeed;
             }
@@ -230,6 +230,7 @@ public class ElevatorCommand extends Command{
                 targets[2] = extendoLeftLimit;
             }
         }
+        // return (targets[arlock] + check > initEvent.MotorLIMITS.leftLimit && targets[arlock] + check < initEvent.MotorLIMITS.rightLimit);
         //extendo in
         else if (xbox.getPOV() == 180){
             if (inLimit(2,extendoIn,ArmHookConstants.extendo)){

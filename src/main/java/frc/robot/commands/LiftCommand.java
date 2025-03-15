@@ -19,10 +19,10 @@ public class LiftCommand extends Command{
     @Override
     public void execute() {
         if (xbox2.getPOV() == 90){
-            lift.moveLift(-0.3);
+            lift.moveLift(-0.5);
         }
         else if (xbox2.getPOV() == 270){
-            lift.moveLift(0.3);
+            lift.moveLift(0.5);
         }
         else {
             lift.moveLift(0);

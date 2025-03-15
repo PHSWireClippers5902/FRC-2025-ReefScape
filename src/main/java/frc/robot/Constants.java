@@ -6,7 +6,7 @@ public final class Constants{
         public static final MotorInitialize arm = new MotorInitialize(
             10,
             new Gains(0.024,0,0.8,0,0,0.5),
-            new EncoderLimits(-42,1),
+            new EncoderLimits(-41.5,1),
             false,
             new Gains(0.008,0,0.8,0,0,1)
         );
@@ -25,7 +25,7 @@ public final class Constants{
         public static final MotorInitialize extendo = new MotorInitialize(
             11,
             new Gains(0.15,0,0.3,0,0,1),
-            new EncoderLimits(-17.2*4,0),
+            new EncoderLimits(-66.76,0),
             false
         );
         public static final MotorInitialize lift = new MotorInitialize(
@@ -45,6 +45,7 @@ public final class Constants{
         public static final double[] stageTwo = {-17,0,0};
         public static final double[] intakePosDown = {-7.07,0,-10.833};
         public static final double[] intakePosUp = {-15.7,0,0};
+        public static final double extendoBeforeWrist = -3.36;
     
     }
     public static final class AprilConstants{
@@ -65,7 +66,7 @@ public final class Constants{
     }
     public static final class ArmExtendoK{
         public static double arms = 0.03;
-        public static double extendos = 0.06;
+        public static double extendos = 0.09;
     }
     public static final class SwervePIDConstants{
         public static final int kSlotIdx = 0;
@@ -114,10 +115,10 @@ public final class Constants{
         // 22 3677
 
 
-        public static final int FrontLeftChange = 742;
-        public static final int FrontRightChange = 328;
-        public static final int BackLeftChange = 924;
-        public static final int BackRightChange = 3677;
+        public static final int FrontLeftChange = -3368;
+        public static final int FrontRightChange = 324;
+        public static final int BackLeftChange = 826;
+        public static final int BackRightChange = 3659;
     }
     public static final class SwerveCANConstants{
         public static final int kFrontLeftDrivingCanId = 25;
