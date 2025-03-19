@@ -61,8 +61,8 @@ public class Robot extends TimedRobot {
     //SmartDashboard.putData("Auto choices", m_chooser);
     System.out.println("Robot Init - NOW");
     
-  //  CameraServer.startAutomaticCapture(0);
-  //  CameraServer.startAutomaticCapture(1);
+    CameraServer.startAutomaticCapture(0);
+    //CameraServer.startAutomaticCapture(1);
 
     // m_robotContainer.m_gyro.calibrate();
     //System.out.println("Calibrate!!");
