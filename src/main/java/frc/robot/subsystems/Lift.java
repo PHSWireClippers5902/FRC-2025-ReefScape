@@ -64,7 +64,7 @@ public class Lift extends SubsystemBase{
         liftServo.set(0);
     }
     public void liftDown(){
-        liftController.setReference(-69,ControlType.kPosition);
+        liftController.setReference(-75,ControlType.kPosition);
     }
     public void liftUp(){
         liftController.setReference(0,ControlType.kPosition);
