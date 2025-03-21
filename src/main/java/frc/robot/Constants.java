@@ -30,7 +30,7 @@ public final class Constants{
         );
         public static final MotorInitialize lift = new MotorInitialize(
             15, 
-            new Gains(0.02,0,0.3,0,0,1), 
+            new Gains(0.1,0,0.3,0,0,1), 
             new EncoderLimits(0,0),
             true
         );

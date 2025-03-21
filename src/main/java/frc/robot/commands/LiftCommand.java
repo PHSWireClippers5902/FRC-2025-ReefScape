@@ -24,9 +24,25 @@ public class LiftCommand extends Command{
         else if (xbox2.getPOV() == 270){
             lift.moveLift(0.5);
         }
+        else if (xbox2.getRawButton(7)) {
+            lift.liftDown();
+        }
+        else if (xbox2.getRawButton(8)){
+            lift.liftUp ();
+        }
         else {
             lift.moveLift(0);
         }
+
+        if (xbox2.getPOV() == 0) {
+            lift.ServoUp();
+        } else if(xbox2.getPOV() == 180){
+            lift.ServoDown();
+        }
+        // if (xbox2.getRawButton(7)){
+
+        // }
+
         // if (xbox.getPOV() == 90){
         //     lift.moveLift(0.2);
         // }

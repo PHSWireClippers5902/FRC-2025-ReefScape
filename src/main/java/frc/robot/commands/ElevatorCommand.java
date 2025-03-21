@@ -284,17 +284,17 @@ public class ElevatorCommand extends Command{
             targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageFour[0],ArmExtendoK.arms);
             targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageFour[2],ArmExtendoK.extendos);
         }
-        if (xbox2.getPOV() == 180){
-            //goes to rest position middle
-            targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.intakePosDown[0],ArmExtendoK.arms);
-            targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.intakePosDown[2],ArmExtendoK.extendos);
-        }
-        if (xbox2.getPOV() == 0){
-            //goes to input pick up mode
-            targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.intakePosUp[0],ArmExtendoK.arms);
-            targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.intakePosUp[2],ArmExtendoK.extendos);
+        // if (xbox2.getPOV() == 180){
+        //     //goes to rest position middle
+        //     targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.intakePosDown[0],ArmExtendoK.arms);
+        //     targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.intakePosDown[2],ArmExtendoK.extendos);
+        // }
+        // if (xbox2.getPOV() == 0){
+        //     //goes to input pick up mode
+        //     targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.intakePosUp[0],ArmExtendoK.arms);
+        //     targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.intakePosUp[2],ArmExtendoK.extendos);
             
-        }
+        // }
         if (xbox2.getAButton()){
             //goes to input pick up mode
             targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageTwo[0],ArmExtendoK.arms);
