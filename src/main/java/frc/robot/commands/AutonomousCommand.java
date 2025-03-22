@@ -41,14 +41,19 @@ public class AutonomousCommand extends Command{
         swerveSystem.myGyro.reset();
     }
 
-    @Override
-    public void execute() {
+    public void forwardAuto(){
+        if (timer.get() < 4){
+            swerveSystem.drive(0.2,0,0,false,0.1,new Translation2d(0,0));
+        }
+    
+    }
+    public void normalAuto(){
         if (timer.get() < 6){
             if (llvalues.getTv() > 0){
-                double infromgoal = timer.get() < 4 ? 33 : 30;
+                double infromgoal = timer.get() < 4 ? 31 : 28;
                 double[] testSpeeds = getLimelightAlignmentSpeeds(0,infromgoal,0);
                 
-                swerveSystem.drive(testSpeeds[1],testSpeeds[0],testSpeeds[2],true,0.1,new Translation2d(0,0));
+                swerveSystem.drive(1.3*testSpeeds[1],testSpeeds[0],testSpeeds[2],true,0.1,new Translation2d(0,0));
             }
             else {
                 swerveSystem.drive(0,0,0,true,0.02, new Translation2d(0,0));
@@ -60,12 +65,12 @@ public class AutonomousCommand extends Command{
             if (timer.get() > 3.5){
                 targets[1]+=calculateDifference(elevator.getWristPosition(),-22.785591,0.05);
             }
-            targets[0]+=calculateDifference(elevator.getArmPosition(),-35.333023,0.01);
+            targets[0]+=calculateDifference(elevator.getArmPosition(),-35.333023,0.03);
         
         }
         else if (timer.get() < 9){
             targets[0]+=calculateDifference(elevator.getArmPosition(), -29, 0.01);
-            swerveSystem.drive(0.025,0.010,0,true,0.02, new Translation2d(0,0));
+            swerveSystem.drive(0.025,0.008,0,true,0.02, new Translation2d(0,0));
         
         }
         else if (timer.get() < 10.5){
@@ -112,6 +117,11 @@ public class AutonomousCommand extends Command{
         whatLimitShouldBeExtendo();
         elevator.powerMovement(targets);
         elevator.moveIntake_ONLY_IN_EMERGENCIES(intake);
+    }
+    @Override
+    public void execute() {
+        normalAuto();
+        // forwardAuto();
         
     }
 

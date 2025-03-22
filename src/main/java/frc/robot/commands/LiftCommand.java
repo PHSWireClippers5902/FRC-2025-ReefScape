@@ -16,6 +16,9 @@ public class LiftCommand extends Command{
     }
     //execute order 66
     //incresed motor PID to .3 for more power.
+    public boolean allowedToClimb = false;
+
+
     @Override
     public void execute() {
         if (xbox2.getPOV() == 90){
@@ -28,7 +31,7 @@ public class LiftCommand extends Command{
             lift.liftDown();
         }
         else if (xbox2.getRawButton(8)){
-            lift.liftUp ();
+            lift.liftUp();
         }
         else {
             lift.moveLift(0);
@@ -38,6 +41,7 @@ public class LiftCommand extends Command{
             lift.ServoUp();
         } else if(xbox2.getPOV() == 180){
             lift.ServoDown();
+            allowedToClimb = true;
         }
         // if (xbox2.getRawButton(7)){
 

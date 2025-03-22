@@ -118,10 +118,10 @@ public final class Constants{
         // 22 3677
 
 
-        public static final int FrontLeftChange = -3368;
-        public static final int FrontRightChange = 324;
-        public static final int BackLeftChange = 826;
-        public static final int BackRightChange = 3659;
+        public static final int FrontLeftChange = 760;
+        public static final int FrontRightChange = 303;
+        public static final int BackLeftChange = 876;
+        public static final int BackRightChange = -424;
     }
     public static final class SwerveCANConstants{
         public static final int kFrontLeftDrivingCanId = 25;
