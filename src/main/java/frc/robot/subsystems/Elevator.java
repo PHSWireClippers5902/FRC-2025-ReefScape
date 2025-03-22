@@ -101,7 +101,7 @@ public class Elevator extends SubsystemBase{
         //create the arm configuration
         wristConfiguration = new SparkMaxConfig();
         //ONCE YOU FINISH TESTING, SET IDLE MODE TO BRAKE (UNCOMMENT THE LINE BELOW)
-        wristConfiguration.idleMode(coastOrClear);
+        wristConfiguration.idleMode(IdleMode.kCoast);
 
         wristConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
         wristConfiguration.closedLoop.pid(ArmHookConstants.wrist.MotorGAINS.kP,ArmHookConstants.wrist.MotorGAINS.kI,ArmHookConstants.wrist.MotorGAINS.kD);

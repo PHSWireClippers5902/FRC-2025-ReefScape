@@ -55,11 +55,11 @@ public class Lift extends SubsystemBase{
     public void moveLift(double speed){
         lift.set(speed);
     }
-    public void ServoUp(){
-        // liftServo.setAngle(90);
-        liftServo.set(0.8);
-    }
     public void ServoDown(){
+        // liftServo.setAngle(90);
+        liftServo.set(0.3);
+    }
+    public void ServoUp(){
         // liftServo.setAngle(2);
         liftServo.set(0);
     }

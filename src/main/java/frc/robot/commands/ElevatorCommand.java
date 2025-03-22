@@ -286,8 +286,8 @@ public class ElevatorCommand extends Command{
         // }
         if (xbox2.getYButton()){
             //goes to the top preset position
-            targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageFour[0],ArmExtendoK.arms);
-            targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageFour[2],ArmExtendoK.extendos);
+            targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.algaeUp[0],ArmExtendoK.arms);
+            // targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageFour[2],ArmExtendoK.extendos);
         }
         // if (xbox2.getPOV() == 180){
         //     //goes to rest position middle
@@ -302,20 +302,20 @@ public class ElevatorCommand extends Command{
         // }
         if (xbox2.getAButton()){
             //goes to input pick up mode
-            targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageTwo[0],ArmExtendoK.arms);
-            targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageTwo[2],ArmExtendoK.extendos);
+            targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.algaeDown[0],ArmExtendoK.arms);
+            // targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageTwo[2],ArmExtendoK.extendos);
             // intake = 0.5;
             // intakeChanged = true;
             
         }
-        if (xbox2.getBButton()){
-            //goes to input pick up mode
-            targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageThree[0],ArmExtendoK.arms);
-            targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageThree[2],ArmExtendoK.extendos);
-            // intake = 0.5;
-            // intakeChanged = true;
+        // if (xbox2.getBButton()){
+        //     //goes to input pick up mode
+        //     targets[0]+=calculateDifference(elevator.getArmPosition(),ArmHookConstants.stageThree[0],ArmExtendoK.arms);
+        //     targets[2]+=calculateDifference(elevator.getExtendoPosition(),ArmHookConstants.stageThree[2],ArmExtendoK.extendos);
+        //     // intake = 0.5;
+        //     // intakeChanged = true;
             
-        }
+        // }
        
 
 

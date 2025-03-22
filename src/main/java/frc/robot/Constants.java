@@ -25,7 +25,7 @@ public final class Constants{
         public static final MotorInitialize extendo = new MotorInitialize(
             11,
             new Gains(0.15,0,0.3,0,0,1),
-            new EncoderLimits(-66.76,0),
+            new EncoderLimits(-72.76,0),
             false
         );
         public static final MotorInitialize lift = new MotorInitialize(
@@ -46,6 +46,9 @@ public final class Constants{
         public static final double[] intakePosDown = {-7.07,0,-10.833};
         public static final double[] intakePosUp = {-15.7,0,0};
         public static final double extendoBeforeWrist = -3.36;
+        public static final double[] algaeUp = {-27.07};
+        public static final double[] algaeDown = {-18.333};
+
     
     }
     public static final class AprilConstants{
