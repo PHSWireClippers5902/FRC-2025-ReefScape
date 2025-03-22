@@ -59,7 +59,12 @@ public class ElevatorCommand extends Command{
         // if (elevator.getArmPosition() > -10){extendoLeftLimit = ArmHookConstants.extendo.MotorLIMITS.leftLimit;}
     }
     
-
+    @Override
+    public void initialize() {
+        targets[0] = elevator.getArmPosition();
+        targets[1] = elevator.getWristPosition();
+        targets[2] = elevator.getExtendoPosition();
+    }
 
     @Override
     public void execute() {

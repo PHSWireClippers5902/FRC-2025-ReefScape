@@ -36,40 +36,68 @@ public class AutonomousCommand extends Command{
         //init command, stub
         timer.reset();
         timer.start();
+        
+        System.out.println("Auto Initialized");
+        swerveSystem.myGyro.reset();
     }
 
     @Override
     public void execute() {
         if (timer.get() < 6){
             if (llvalues.getTv() > 0){
-                double infromgoal = timer.get() < 4 ? 35 : 31;
+                double infromgoal = timer.get() < 4 ? 33 : 30;
                 double[] testSpeeds = getLimelightAlignmentSpeeds(0,infromgoal,0);
                 
-                swerveSystem.drive(testSpeeds[1],testSpeeds[0],testSpeeds[2],false,0.1,new Translation2d(0,0));
+                swerveSystem.drive(testSpeeds[1],testSpeeds[0],testSpeeds[2],true,0.1,new Translation2d(0,0));
             }
             else {
-                swerveSystem.drive(0,0,0,false,0.02, new Translation2d(0,0));
+                swerveSystem.drive(0,0,0,true,0.02, new Translation2d(0,0));
             }
             if (timer.get() > 3){
                 
                 targets[2]+=calculateDifference(elevator.getExtendoPosition(),-50.881474,0.02);
             }
             if (timer.get() > 3.5){
-                targets[1]+=calculateDifference(elevator.getWristPosition(),-22.785591,0.08);
+                targets[1]+=calculateDifference(elevator.getWristPosition(),-22.785591,0.05);
             }
-            targets[0]+=calculateDifference(elevator.getArmPosition(),-34.333023,0.01);
+            targets[0]+=calculateDifference(elevator.getArmPosition(),-35.333023,0.01);
         
         }
-        else if (timer.get() < 6.3){
-            targets[0]+=calculateDifference(elevator.getArmPosition(), -30, 0.01);
-            swerveSystem.drive(0.04,0,0,false,0.02, new Translation2d(0,0));
+        else if (timer.get() < 9){
+            targets[0]+=calculateDifference(elevator.getArmPosition(), -29, 0.01);
+            swerveSystem.drive(0.025,0.010,0,true,0.02, new Translation2d(0,0));
         
         }
-        else if (timer.get() < 6.6){
-            swerveSystem.drive(-0.04,0,0,false,0.02, new Translation2d(0,0));
+        else if (timer.get() < 10.5){
+            targets[0]+=calculateDifference(elevator.getArmPosition(),-17,0.01);
+            if (timer.get() > 11.5){
+                targets[1]+=calculateDifference(elevator.getWristPosition(),-52.595432,0.06);
+               
+            }
+            intake = (timer.get() > 11.5) ? 0.5 : 0;
+            swerveSystem.drive(-0.06,-0.04,0,true,0.02, new Translation2d(0,0));
+        
         }
-        else {
-            swerveSystem.drive(0,0,0,false,0.02,new Translation2d(0,0));
+        else if (timer.get() < 13){
+            if (timer.get() < 13.5){
+                intake = 0.5;
+            }
+            targets[0]+=calculateDifference(elevator.getArmPosition(),-17,0.01);
+            targets[1]+=calculateDifference(elevator.getWristPosition(),-52.595432,0.08);
+            // intake = 0;
+            // intake = 0.5;
+            swerveSystem.drive(0.07,0,0,true,0.02,new Translation2d(0,0));
+        }
+        else if (timer.get() < 14.5){
+            targets[0]+=calculateDifference(elevator.getArmPosition(),-21,0.01);
+            intake = 0;
+            swerveSystem.drive(-0.15,0,0,true,0.02,new Translation2d(0,0));
+        }
+        else if (timer.get() < 15){
+            swerveSystem.drive(0,0,0,true,0.02,new Translation2d(0,0));
+        }
+        else{
+            System.out.println("Auto Ended");
         }
         
         
@@ -106,8 +134,8 @@ public class AutonomousCommand extends Command{
 
 
 
-        double kx = 0.01;
-        double ky = 0.04;
+        double kx = 0.02;
+        double ky = 0.07;
         double kr = 0.04;
         //xspeed: turn, 
         //yspeed: forward
