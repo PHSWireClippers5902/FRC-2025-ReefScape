@@ -72,10 +72,12 @@ public class Elevator extends SubsystemBase{
 
         //create arm object
         arm = new SparkMax(ArmHookConstants.arm.CANConstant, MotorType.kBrushless);
+        arm.setCANTimeout(250);
         //create the arm configuration
         armConfiguration = new SparkMaxConfig();
         //ONCE YOU FINISH TESTING, SET IDLE MODE TO BRAKE (UNCOMMENT THE LINE BELOW)
         armConfiguration.idleMode(coastOrClear);
+        armConfiguration.smartCurrentLimit(60);
 
         armConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
         armConfiguration.closedLoop.pid(ArmHookConstants.arm.MotorGAINS.kP,ArmHookConstants.arm.MotorGAINS.kI,ArmHookConstants.arm.MotorGAINS.kD);
@@ -98,6 +100,7 @@ public class Elevator extends SubsystemBase{
          * 
          */
         wrist = new SparkMax(ArmHookConstants.wrist.CANConstant, MotorType.kBrushless);
+        wrist.setCANTimeout(250);
         //create the arm configuration
         wristConfiguration = new SparkMaxConfig();
         //ONCE YOU FINISH TESTING, SET IDLE MODE TO BRAKE (UNCOMMENT THE LINE BELOW)
@@ -122,10 +125,14 @@ public class Elevator extends SubsystemBase{
          * 
          */
         intake = new SparkMax(ArmHookConstants.intake.CANConstant, MotorType.kBrushless);
+        intake.setCANTimeout(250);
+
         //create the arm configuration
         intakeConfiguration = new SparkMaxConfig();
         //ONCE YOU FINISH TESTING, SET IDLE MODE TO BRAKE (UNCOMMENT THE LINE BELOW)
         intakeConfiguration.idleMode(IdleMode.kBrake);
+
+        intakeConfiguration.smartCurrentLimit(40);
         
 
         intakeConfiguration.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
@@ -146,8 +153,11 @@ public class Elevator extends SubsystemBase{
          * 
          */
         extendo = new SparkMax(ArmHookConstants.extendo.CANConstant, MotorType.kBrushless);
+        extendo.setCANTimeout(250);
         //create the arm configuration
         extendoConfiguration = new SparkMaxConfig();
+        
+        extendoConfiguration.smartCurrentLimit(40);
         //ONCE YOU FINISH TESTING, SET IDLE MODE TO BRAKE (UNCOMMENT THE LINE BELOW)
         extendoConfiguration.idleMode(coastOrClear);
 

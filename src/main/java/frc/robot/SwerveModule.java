@@ -57,13 +57,14 @@ public class SwerveModule extends SubsystemBase{
 
         powerController = new SparkMax(powerID,MotorType.kBrushless);
         powerConfigurer = new SparkMaxConfig();
-
+        // powerConfigurer.set(40);
         powerConfigurer.inverted(powerInvert);
         powerConfigurer.idleMode(IdleMode.kBrake);
 
         powerConfigurer.encoder.positionConversionFactor(2*Math.PI*kWheelRadius/(42*kGearReduction));
         powerConfigurer.encoder.velocityConversionFactor(2*Math.PI*kWheelRadius/(42*kGearReduction*60));
 
+        powerConfigurer.smartCurrentLimit(40);
         powerConfigurer.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
         powerConfigurer.closedLoop.pid(0.2, 0, 0.002);
         // powerController.setInverted(powerInvert);

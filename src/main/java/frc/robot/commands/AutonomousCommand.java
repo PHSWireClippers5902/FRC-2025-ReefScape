@@ -50,7 +50,7 @@ public class AutonomousCommand extends Command{
     public void normalAuto(){
         if (timer.get() < 6){
             if (llvalues.getTv() > 0){
-                double infromgoal = timer.get() < 4 ? 29 : 27;
+                double infromgoal = timer.get() < 4 ? 29 : 25;
                 double[] testSpeeds = getLimelightAlignmentSpeeds(0,infromgoal,0);
                 
                 swerveSystem.drive(1.3*testSpeeds[1],testSpeeds[0],testSpeeds[2],true,0.1,new Translation2d(0,0));
@@ -70,7 +70,7 @@ public class AutonomousCommand extends Command{
         }
         else if (timer.get() < 9){
             targets[0]+=calculateDifference(elevator.getArmPosition(), -29, 0.01);
-            swerveSystem.drive(0.025,0.008,0,true,0.02, new Translation2d(0,0));
+            swerveSystem.drive(0.025,0.000,0,true,0.02, new Translation2d(0,0));
         
         }
         else if (timer.get() < 10.5){
