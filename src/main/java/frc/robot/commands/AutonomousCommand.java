@@ -50,7 +50,7 @@ public class AutonomousCommand extends Command{
     public void normalAuto(){
         if (timer.get() < 6){
             if (llvalues.getTv() > 0){
-                double infromgoal = timer.get() < 4 ? 31 : 28;
+                double infromgoal = timer.get() < 4 ? 29 : 27;
                 double[] testSpeeds = getLimelightAlignmentSpeeds(0,infromgoal,0);
                 
                 swerveSystem.drive(1.3*testSpeeds[1],testSpeeds[0],testSpeeds[2],true,0.1,new Translation2d(0,0));

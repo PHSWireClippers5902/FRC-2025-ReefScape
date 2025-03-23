@@ -94,16 +94,16 @@ public class SwerveCommand extends Command {
             hasProcced = true;
         }
         if (myXbox.getLeftTriggerAxis() > 0.2){
-            normMax = 0.5;
-            rotMax = 0.3;
+            normMax = 0.7;
+            rotMax = 0.2;
         }
         else if (myXbox.getRightTriggerAxis() > 0.2){
-            normMax = 0.05;
-            rotMax = 0.05;
+            normMax = 0.1;
+            rotMax = 0.1;
         }
         else {
-            normMax = 0.1;
-            rotMax = 0.2;
+            normMax = 0.3;
+            rotMax = 0.4;
         }
 
         
