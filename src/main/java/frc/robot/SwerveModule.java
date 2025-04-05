@@ -29,15 +29,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwervePIDConstants;
 
-public class SwerveModule extends SubsystemBase{
-    public static final double kWheelRadius = 0.0379; //convert LATER, in m
-    public static final int kEncoderResolution = 4096;
-    //change later
-    public static final double kGearReduction = 0.5;
-    public static final double encoderToRadians = (2*Math.PI)/(kEncoderResolution);
-    public static final double kMaxSpeed = 1.0; // 3 meters per second should be fine to work with 
-    public static final double kMaxAngularSpeed = 2*Math.PI; // 1/2 rotation per second
 
+//util class, daniel sabalakov, creates WCP SwerveXS Module
+public class SwerveModule extends SubsystemBase{
+    public static final double kWheelRadius = 0.0379; //convert m
+    public static final int kEncoderResolution = 4096;
+    //gear reduction real????? idk but I didn't use it yet
+    public static final double kGearReduction = 0.5;
+    //IMPORTANT: value of each encoder tick converted to radians.
+    public static final double encoderToRadians = (2*Math.PI)/(kEncoderResolution);
+    //max speed 1 m/s, max angular momentum speed is 2pi rads/sec (360deg/sec). 
+    public static final double kMaxSpeed = 1.0; // 2 meters per second should be fine to work with 
+    public static final double kMaxAngularSpeed = 2*Math.PI; //1 rotation per second
+
+    //declare objects: 
+    //Drive motor: powerController, powerConfigurer, powerEncoder, powerPIDController
+    //Steering controller: steeringController
     public SparkMax powerController;
     public SparkMaxConfig powerConfigurer;
     public WPI_TalonSRX steeringController;
@@ -45,31 +52,45 @@ public class SwerveModule extends SubsystemBase{
     public SparkClosedLoopController powerPIDController;
     // public Translation2d moduleLocation;
 
-    public int powerIDd;
+    //i dont believe feed forward is ever used
     private SimpleMotorFeedforward feedforward;
 
-
+    /**
+     * @param powerID needs powerID (configured in rev hardware client)
+     * @param steeringID needs steerinID (configured in tunerX or phoenixtuner)
+     * @param powerInvert invert the power wheel?
+     * @param absoluteChange absoluteChange is used to set the "0" point: it reads the absolute value of the encoder
+     */
     public SwerveModule(int powerID, int steeringID,boolean powerInvert, double absoluteChange){
-        //temp variable remove
-        powerIDd = powerID;
-        //set constants for module location
-        // moduleLocation = new Translation2d(Constants.Translations.xPos,Constants.Translations.yPos);
+        /*
+         * PowerController:
+         * -> SparkMax (set power)
+         * -> SparkMaxConfig (configure stuff such as PID and current limits)
+         * -> SparkMaxEncoder (get position of power)
+         */
 
+        //create objects
         powerController = new SparkMax(powerID,MotorType.kBrushless);
         powerConfigurer = new SparkMaxConfig();
-        // powerConfigurer.set(40);
+        
+        //set inverted and idlemode
         powerConfigurer.inverted(powerInvert);
         powerConfigurer.idleMode(IdleMode.kBrake);
 
+        //position & velocity conversion factors
         powerConfigurer.encoder.positionConversionFactor(2*Math.PI*kWheelRadius/(42*kGearReduction));
         powerConfigurer.encoder.velocityConversionFactor(2*Math.PI*kWheelRadius/(42*kGearReduction*60));
 
+        //current limit !important
         powerConfigurer.smartCurrentLimit(40);
+        //configure PID 
         powerConfigurer.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder);
         powerConfigurer.closedLoop.pid(0.2, 0, 0.002);
-        // powerController.setInverted(powerInvert);
+        
+        //get pid controller 
         powerPIDController = powerController.getClosedLoopController();
         
+        //configure the motor !important
         powerController.configure(powerConfigurer, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         
         
@@ -79,9 +100,15 @@ public class SwerveModule extends SubsystemBase{
         
         //feed forward controller
         //CHANGE FOR EACH ROBOT
+        //not used in 2025
         feedforward = new SimpleMotorFeedforward(Constants.KsKvKaConstants.ks,Constants.KsKvKaConstants.kv,Constants.KsKvKaConstants.ka);
 
+        /*
+         * WPI_TalonSRX
+         * -> WPI_TalonSRX is used for all motor control
+         */
 
+        //create object for steering controller
         steeringController = new WPI_TalonSRX(steeringID);
         steeringController.configFactoryDefault();
         //sets the configured sensor to various predetermined constants
@@ -107,56 +134,80 @@ public class SwerveModule extends SubsystemBase{
         //sets the relative sensor to match absolute
         int absolutePosition = steeringController.getSensorCollection().getPulseWidthPosition() % 4096; // Mask out to 12-bit value
         steeringController.setSelectedSensorPosition(absolutePosition - absoluteChange, SwervePIDConstants.kPIDLoopIdx, SwervePIDConstants.kTimeoutMs);
-        // steeringController.setSelectedSensorPosition(0, SwervePIDConstants.kPIDLoopIdx, SwervePIDConstants.kTimeoutMs);
+        
+        //used when aligning wheels manually
         System.out.println(powerID + " " + absolutePosition);
-        // steeringController.setSelectedSensorPosition(,SwervePIDConstants.kPIDLoopIdx,SwervePIDConstants.kTimeoutMs);
 
 
         
     }
-    // @Override
-    // public void periodic() {
-    //     SmartDashboard.putNumber("Absolute Sensor Position: " + powerIDd, steeringController.getSelectedSensorPosition());
-        
-    // }
-    // public Translation2d getModuleLocation() {
-    //     return moduleLocation;
-    // }
+
+    //set gains for powerController. 
     public void setVelocityGains(double kp, double ki, double kd, double ks, double kv, double ka){
         feedforward = new SimpleMotorFeedforward(ks, kv, ka);
         powerConfigurer.closedLoop.pid(kp,ki,kd);
         powerController.configure(powerConfigurer,ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
+
+    //azimuth is used to set the direction. debug method
+    /**
+     * 
+     * @param azimuth -> Rotation2d used for direction of wheel
+     */
     public void setAzimuth(Rotation2d azimuth) {
         steeringController.set(ControlMode.Position,azimuth.getDegrees());
     }
-    //what is azmiuth? Who knows? Maybe a mayan pyramid or something
+
+    /**
+     * sets PID of steering controller
+     * @param kp
+     * @param ki
+     * @param kd
+     */
     public void setAzimuthGains(double kp, double ki, double kd){
         steeringController.config_kP(SwervePIDConstants.kPIDLoopIdx,kp,SwervePIDConstants.kTimeoutMs);
         steeringController.config_kI(SwervePIDConstants.kPIDLoopIdx,ki,SwervePIDConstants.kTimeoutMs);
         steeringController.config_kD(SwervePIDConstants.kPIDLoopIdx,kd,SwervePIDConstants.kTimeoutMs);
         
     }
+    /**
+     * resets encoder position of the steering motor to 0
+     */
     public void resetSteerPosition(){
         steeringController.setSelectedSensorPosition(0,SwervePIDConstants.kPIDLoopIdx,SwervePIDConstants.kTimeoutMs);
     }
-
+    /**
+     *sets voltage of the DRIVE motor
+     * @param volts -> target volts
+     */
     public void setDriveVolts(double volts){
         powerController.setVoltage(volts);
     }
+    /**
+     * returns volts
+     * @return volts on the output
+     */
     public double getDriveVolts(){
         return powerController.getAppliedOutput() * powerController.getBusVoltage();
     }
+    /**
+     * gets current
+     * @return current of the power controller
+     */
     public double getDriveCurrent(){
         return powerController.getAppliedOutput() * powerController.getBusVoltage();
     }
+
+    /**
+     * ARGUABLY THE MOST IMPORTANT METHOD
+     * sets targeted state of the swerve module wheels
+     * @param desiredState SwerveModuleState calculated in different class
+     * @param isOpenLoop if open loop
+     */
     public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop){
-        
-        // SwerveModuleState newDesiredState = SwerveModuleState.optimize(desiredState,getAngle());
-        // desiredState.optimize(getAngle());
+        //gets optimized state
         desiredState = CTREModuleState.optimize(desiredState, getAngle());
-        // desiredState.optimize(desiredState, getAngle());
-        
+        //if is open loop then set percent output, else set velocity
         if (isOpenLoop){
             double percentOutput = desiredState.speedMetersPerSecond / kMaxSpeed;
             powerController.set(percentOutput);
@@ -165,32 +216,12 @@ public class SwerveModule extends SubsystemBase{
             double velocity = desiredState.speedMetersPerSecond;
             powerPIDController.setReference(velocity, ControlType.kVelocity,ClosedLoopSlot.kSlot0,feedforward.calculate(velocity));
         }
-        // double currentAngleRadians = steeringController.getSelectedSensorPosition() * encoderToRadians;
-        // Rotation2d currentRotation = new Rotation2d(currentAngleRadians);
-        // SmartDashboard.putString("GoofyState", desiredState.angle.toString());
-        // SwerveModuleState optimizedState = SwerveModuleState.optimize(desiredState,currentRotation);
-        // optimizedState.optimize(desiredState,currentRotation);
-        
-        // SmartDashboard.putNumber("DesiredState", desiredState.angle.getDegrees());
-        // SmartDashboard.putNumber("Optimized: ", optimizedState.angle.getDegrees());
-
-        // double angleError = optimizedState.angle.minus(currentRotation).getRadians();
-        // double scaledSpeed = optimizedState.speedMetersPerSecond * optimizedState.angle.minus(currentRotation).getCos();
-
-        // double driveOutput = Math.max(-1, Math.min(1, scaledSpeed / kMaxSpeed)); // Clamp between -1 and 1
-    
-        // powerController.set(driveOutput);
-        
-        // double targetAngleRadians = optimizedState.angle.getRadians();
-        // double targetEncoderPosition = targetAngleRadians / encoderToRadians;
-        // if (Math.abs(angleError) > 0.01) {
-        //     steeringController.set(ControlMode.Position, targetEncoderPosition);
-        // } else {
-        //     steeringController.set(ControlMode.PercentOutput, 0); // Stop if error is small
-        // }
-
         steeringController.set(ControlMode.Position, desiredState.angle.getDegrees() * 4096 / 360);
     }
+    /**
+     * gets module state (velocity, angle)
+     * @return state of module
+     */
     public SwerveModuleState getState(){
         double velocity;
         Rotation2d azmimuth;
@@ -198,21 +229,18 @@ public class SwerveModule extends SubsystemBase{
         azmimuth = Rotation2d.fromRadians(steeringController.getSelectedSensorPosition() * encoderToRadians);
         return new SwerveModuleState(velocity, azmimuth);
     }
-    private double getDistance(double setpoint, double position) {
-        return Math.abs(setpoint - position);
-    }
-    private double findRevAngle(double radians) {
-        return (Math.PI * 2 + radians) % (2 * Math.PI) - Math.PI;
-    }
     
+    //gets angle
     public Rotation2d getAngle(){
         return Rotation2d.fromDegrees((steeringController.getSelectedSensorPosition() * 360.0 / 4096.0));
     }
+    //get turning heading
     public double getTurningHeading() {
         double heading = steeringController.getSelectedSensorPosition() * encoderToRadians;
         heading %= 2 * Math.PI;
         return heading;
     }
+    //gets position
     public SwerveModulePosition getPosition(){
         double position;
         Rotation2d azmimuth;
@@ -220,6 +248,7 @@ public class SwerveModule extends SubsystemBase{
         azmimuth = Rotation2d.fromRadians(steeringController.getSelectedSensorPosition() * encoderToRadians);
         return new SwerveModulePosition(position, azmimuth);
     }
+    //turns module
     public void turnModule(double speed){
         steeringController.set(speed);
     }

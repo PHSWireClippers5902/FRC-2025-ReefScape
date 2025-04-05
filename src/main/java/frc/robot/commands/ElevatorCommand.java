@@ -50,12 +50,15 @@ public class ElevatorCommand extends Command{
     public double k = 30*4;
     public void whatLimitShouldBeExtendo(){
         
-        if (elevator.getArmPosition() > -8){
-            extendoLeftLimit = ArmHookConstants.extendo.MotorLIMITS.leftLimit;
-        } else {
-        extendoLeftLimit =  - k * Math.abs( Math.cos(Units.degreesToRadians(90-55.54+55.54*-elevator.getArmPosition()/18.547564)))* Math.abs( Math.cos(Units.degreesToRadians(90-55.54+55.54*-elevator.getArmPosition()/18.547564)));
-        if (targets[2] < extendoLeftLimit){targets[2] = extendoLeftLimit;}
-        }
+        // if (elevator.getArmPosition() > -8){
+        //     extendoLeftLimit = ArmHookConstants.extendo.MotorLIMITS.leftLimit;
+        // } else {
+        // extendoLeftLimit =  - k * Math.abs( Math.cos(Units.degreesToRadians(90-55.54+55.54*-elevator.getArmPosition()/18.547564)))* Math.abs( Math.cos(Units.degreesToRadians(90-55.54+55.54*-elevator.getArmPosition()/18.547564)));
+        // if (targets[2] < extendoLeftLimit){targets[2] = extendoLeftLimit;}
+        // }
+
+        extendoLeftLimit = ArmHookConstants.extendo.MotorLIMITS.leftLimit;
+
         // if (elevator.getArmPosition() > -10){extendoLeftLimit = ArmHookConstants.extendo.MotorLIMITS.leftLimit;}
     }
     

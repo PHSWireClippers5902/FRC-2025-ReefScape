@@ -34,14 +34,18 @@ public class RobotContainer {
   // create inputs
   public final XboxController xbox = new XboxController(0);
   public final XboxController xbox2 = new XboxController(1);
-  public final Joystick joystick = new Joystick(1);
-  //create Commands
+  // public final Joystick joystick = new Joystick(1);
+
+
+  //create subsystems
   public final Elevator m_elevator = new Elevator();
   public final Swerve m_swerve = new Swerve();
   public final Lift m_lift = new Lift();
   public final LimeLightValues m_values = new LimeLightValues();
   // public final SystemIdentificationSubsystem sysidSubsystem = new SystemIdentificationSubsystem(xbox);
   public final LedSubsystem m_LedSubsystem = new LedSubsystem();
+
+  //creates commands
   public final LedCommand m_LedCommand = new LedCommand(m_LedSubsystem);
   SendableChooser<Command> m_chooser = new SendableChooser<>();
   public final ElevatorCommand m_elevatorCommand = new ElevatorCommand(m_elevator, xbox, xbox2);
@@ -49,6 +53,7 @@ public class RobotContainer {
   public final LiftCommand m_LiftCommand = new LiftCommand(xbox, xbox2, m_lift);
   //Default Constructor
   public RobotContainer(){
+    //sets default commands
      m_elevator.setDefaultCommand(m_elevatorCommand);
      m_swerve.setDefaultCommand(swerveCommand);
      m_lift.setDefaultCommand(m_LiftCommand);
@@ -65,9 +70,9 @@ public class RobotContainer {
     return xbox;
   }
 
-  public Joystick getJoystick() {
-    return joystick;
-  }
+  // public Joystick getJoystick() {
+  //   return joystick;
+  // }
   //gets command to run in autonomous
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();

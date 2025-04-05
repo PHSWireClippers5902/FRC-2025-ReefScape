@@ -45,95 +45,46 @@ public class LimeLightValues extends SubsystemBase{
     public LimeLightValues(){
         //grabs instances. 
         NetworkTableInstance instance = table.getInstance();
-        
-    
     }
+    //get feducial id
     public double getFeducialID(){
-        return helpers.getFiducialID("limelight");
+        return LimelightHelpers.getFiducialID("limelight");
     }
-    public void turnOff(){
-        
-    }
+    
 
     public double getTx(){
-        
-        //read values periodically
         double x = tx.getDouble(0.0);
-        // double y = ty.getDouble(0.0);
-        // double area = ta.getDouble(0.0);
         return x;
     
     }
     public double getTv(){
-        //returns tv (some sorta stuff.)
         double v = tv.getDouble(0.0);
         return v;
 
     }
     public double getTy(){
-        
-        //read values periodically
-        //double x = tx.getDouble(0.0);
         double y = ty.getDouble(0.0);
         return y;
     
     }
     public double getTa(){
-        
-        //read values periodically
-        // double x = tx.getDouble(0.0);
-        // double y = ty.getDouble(0.0);
         double area = ta.getDouble(0.0);
         return area;
     
     }
-    // public double getTy(){
-
-
-    // }
+    //returns inches from goal
     public double getInchesFromGoal(){
         //gets the inches from goal, duh :0
         NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
         ty = table.getEntry("ty");
         targetOffsetAngle_Vertical = ty.getDouble(0.0);
 
-
-
-    // how many degrees back is your limelight rotated from perfectly vertical?
-        //limelightMountAngleDegrees = -4; 
-
-    // distance from the center of the Limelight lens to the floor
-        //limelightLensHeightInches = 13.25; 
-
-    // distance from the target to the floor
-        //goalHeightInches = 18.5; 
         angleToGoalDegrees = targetOffsetAngle_Vertical - limelightMountAngleDegrees;
-        //double diffinheight = Math.abs(goalHeightInches - limelightLensHeightInches);
-        //angleToGoalDegrees = targetOffsetAngle_Vertical;
         angleToGoalRadians = (angleToGoalDegrees * Math.PI) / 180.0;
-
-        //SmartDashboard.addNumber();
-        // SmartDashboard.putNumber()
-        // SmartDashboard.putNumber("D2-D1", Math.abs(goalHeightInches - limelightLensHeightInches));
-        //SmartDashboard.putNumber("")
 
         //calculate distance
         distanceFromLimelightToGoalInches = Math.abs((limelightLensHeightInches - goalHeightInches) / Math.tan(angleToGoalRadians));
-        // SmartDashboard.putNumber("Tan(Angle)", Math.tan(angleToGoalRadians));
-        // SmartDashboard.putNumber("angletoGoalRadian", angleToGoalRadians);
         
-        
-
-    //     if (angleToGoalDegrees == -4) {
-    //      //   SmartDashboard.putNumber("Distance from LimeLight in Inches: ",0);
-    //         return 0;
-
-    //     }
-    //     else {
-
-    //    // SmartDashboard.putNumber("Distance from LimeLight in Inches: ",distanceFromLimelightToGoalInches);
-    //     return distanceFromLimelightToGoalInches;
-    //     }
         return distanceFromLimelightToGoalInches;
     }
     
